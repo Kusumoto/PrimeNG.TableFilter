@@ -1,0 +1,31 @@
+﻿<Properties StartupConfiguration="{0EE1CF24-9897-481C-B902-3DBDD98D0CBD}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PrimeNG.TableFilter.Test/PrimeNGTableFilterTest.cs">
+    <Files>
+      <File FileName="PrimeNG.TableFilter.Test/PrimeNGTableFilterTest.cs" Line="15" Column="48" />
+    </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="PrimeNG.TableFilter" expanded="True">
+            <Node name="PrimeNG.TableFilter.Test" expanded="True">
+              <Node name="PrimeNG" expanded="True">
+                <Node name="TableFilter" expanded="True">
+                  <Node name="Test" expanded="True" selected="True">
+                    <Node name="PrimeNGTableFilterTest" expanded="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.PrimeNG.TableFilter.Test PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
