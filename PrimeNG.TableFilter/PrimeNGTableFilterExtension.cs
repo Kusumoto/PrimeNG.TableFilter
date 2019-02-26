@@ -12,7 +12,7 @@ namespace PrimeNG.TableFilter
         public const string FilterTypeMatchModeEndsWith = "endsWith";
         public const string FilterTypeMatchModeEquals = "equals";
 
-        public static IQueryable<T> PrimengTableFilter<T>(this IQueryable<T> dataSet, TableFilterModel tableFilterPayload)
+        public static IQueryable<T> PrimengTableFilter<T>(this IQueryable<T> dataSet, TableFilterModel tableFilterPayload, ref int totalRecord)
         {
             foreach (var filter in tableFilterPayload.Filters)
             {
@@ -42,6 +42,8 @@ namespace PrimeNG.TableFilter
                         throw new System.ArgumentException("Match mode is invalid");
                 }
             }
+
+            totalRecord = dataSet.Count();
             dataSet = dataSet.Skip(tableFilterPayload.First).Take(tableFilterPayload.Rows);
 
             if (string.IsNullOrEmpty(tableFilterPayload.SortField)) return dataSet;
