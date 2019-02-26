@@ -1,5 +1,6 @@
 # PrimeNG.TableFilter
 
+[![NuGet version](https://badge.fury.io/nu/PrimeNG.TableFilter.svg)](https://badge.fury.io/nu/PrimeNG.TableFilter)
 [![Build Status](https://travis-ci.org/Kusumoto/PrimeNG.TableFilter.svg)](https://travis-ci.org/Kusumoto/PrimeNG.TableFilter)
 
 Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity
@@ -15,6 +16,12 @@ Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity
 - Handle all command from PrimeNG table filter frontend
 - Filter criteria from PrimeNG table filter in Iterators and Entities
 - Convert PrimeNG table filter payload to SQL Query (use LINQ to Entities)
+
+## Install via Nuget Package Manager
+
+```sh
+PM> Install-Package PrimeNG.TableFilter
+```
 
 ## How to use
 
