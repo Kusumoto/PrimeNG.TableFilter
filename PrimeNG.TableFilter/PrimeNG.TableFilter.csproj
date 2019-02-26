@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Weerayut Hongsa</Authors>
+    <Company>Kusumoto Lab</Company>
+    <PackageProjectUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</RepositoryUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Class1.cs" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Utils\" />
