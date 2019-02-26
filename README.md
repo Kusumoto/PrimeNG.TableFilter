@@ -25,11 +25,11 @@ PM> Install-Package PrimeNG.TableFilter
 
 ## How to use
 
-1. Handle PrimeNG table filter payload in ASP.Net MVC Controller use "TableFilterPayload" in parameter from body
+1. Handle PrimeNG table filter payload in ASP.Net MVC Controller use "TableFilterModel" in parameter from body
 
 ```C#
 [HttpPost("[action]")]
-        public BaseTableResponseEntity<ClassRoomGridModel> GetClassRoom([FromBody] TableFilterPayload tableFilterPayload)
+        public BaseTableResponseEntity<ClassRoomGridModel> GetClassRoom([FromBody] TableFilterModel tableFilterPayload)
             => _classRoomService.GetClassRoom(tableFilterPayload);
 ```
 
@@ -37,7 +37,7 @@ PM> Install-Package PrimeNG.TableFilter
 
 
 ```C#
-public BaseTableResponseEntity<ClassRoomGridModel> GetClassRoom(TableFilterPayload filterPayload)
+public BaseTableResponseEntity<ClassRoomGridModel> GetClassRoom(TableFilterModel filterPayload)
         {
             var totalRecord = 0; // for summary all record before pagination
             var result = _classRoomRepository.Gets()
