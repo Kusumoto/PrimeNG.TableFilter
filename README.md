@@ -14,7 +14,7 @@ Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity
 
 - Handle all command from PrimeNG table filter frontend
 - Filter criteria from PrimeNG table filter in Iterators and Entities
-- Convert PrimeNG table filter payload to LINQ to Entities
+- Convert PrimeNG table filter payload to SQL Query (use LINQ to Entities)
 
 ## How to use
 
