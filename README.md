@@ -8,7 +8,7 @@ Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity
 ## .Net Platform Support
 
 - .Net Standard 2.0
-- .Net Framework 4.0 upper
+- .Net Framework 4.0 more then
 - Mono Framework
 
 ## Feature
