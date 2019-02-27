@@ -51,11 +51,11 @@ namespace PrimeNG.TableFilter
             switch (tableFilterPayload.SortOrder)
             {
                 case (int)SortingEnumeration.OrderByAsc:
-                    dataSet = dataSet.OrderBy(tableFilterPayload.SortField, false);
+                    dataSet = dataSet.OrderBy(tableFilterPayload.SortField.FirstCharToUpper(), false);
                     break;
 
                 case (int)SortingEnumeration.OrderByDesc:
-                    dataSet = dataSet.OrderBy(tableFilterPayload.SortField, true);
+                    dataSet = dataSet.OrderBy(tableFilterPayload.SortField.FirstCharToUpper(), true);
                     break;
 
                 default:
