@@ -39,7 +39,7 @@ namespace PrimeNG.TableFilter.Test
         public void Order_Table_Field_Num1_By_Asc_Test()
         {
             var totalRecord = 0;
-            var filter = GenerateFilterTableFromJson("{ filters: {} , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10, sortField: \"Num1\",sortOrder: 1 }");
+            var filter = GenerateFilterTableFromJson("{ filters: {} , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10, sortField: \"num1\",sortOrder: 1 }");
             var dataSet = GenerateMockTestData();
             dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
             Assert.Equal(1, dataSet.FirstOrDefault()?.Num1);
@@ -50,7 +50,7 @@ namespace PrimeNG.TableFilter.Test
         public void Order_Table_Field_Num1_By_Desc_Test()
         {
             var totalRecord = 0;
-            var filter = GenerateFilterTableFromJson("{ filters: {} , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10, sortField: \"Num1\",sortOrder: -1 }");
+            var filter = GenerateFilterTableFromJson("{ filters: {} , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10, sortField: \"num1\",sortOrder: -1 }");
             var dataSet = GenerateMockTestData();
             dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
             Assert.Equal(9, dataSet.FirstOrDefault()?.Num1);
