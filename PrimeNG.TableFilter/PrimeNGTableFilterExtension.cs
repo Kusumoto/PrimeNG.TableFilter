@@ -42,25 +42,24 @@ namespace PrimeNG.TableFilter
                         throw new System.ArgumentException("Match mode is invalid");
                 }
             }
-
             totalRecord = dataSet.Count();
-            dataSet = dataSet.Skip(tableFilterPayload.First).Take(tableFilterPayload.Rows);
-
-            if (string.IsNullOrEmpty(tableFilterPayload.SortField)) return dataSet;
-
-            switch (tableFilterPayload.SortOrder)
+            if (!string.IsNullOrEmpty(tableFilterPayload.SortField))
             {
-                case (int)SortingEnumeration.OrderByAsc:
-                    dataSet = dataSet.OrderBy(tableFilterPayload.SortField, false);
-                    break;
+                switch (tableFilterPayload.SortOrder)
+                {
+                    case (int)SortingEnumeration.OrderByAsc:
+                        dataSet = dataSet.OrderBy(tableFilterPayload.SortField, false);
+                        break;
 
-                case (int)SortingEnumeration.OrderByDesc:
-                    dataSet = dataSet.OrderBy(tableFilterPayload.SortField, true);
-                    break;
+                    case (int)SortingEnumeration.OrderByDesc:
+                        dataSet = dataSet.OrderBy(tableFilterPayload.SortField, true);
+                        break;
 
-                default:
-                    throw new System.ArgumentException("Sort Order is invalid");
+                    default:
+                        throw new System.ArgumentException("Sort Order is invalid");
+                }
             }
+            dataSet = dataSet.Skip(tableFilterPayload.First).Take(tableFilterPayload.Rows);
             return dataSet;
         }
 
