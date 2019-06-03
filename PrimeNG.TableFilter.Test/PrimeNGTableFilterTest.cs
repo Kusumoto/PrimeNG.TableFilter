@@ -148,5 +148,73 @@ namespace PrimeNG.TableFilter.Test
             Assert.Equal(3, totalRecord);
         }
 
+        [Fact]
+        public void List_Multiple_Sorting_Asc_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: {}, first: 0, globalFilter: null, rows: 10, sortField: \"\",sortOrder: -1, multiSortMeta: [{ field: \"num1\", order: 1 }, { field: \"string1\", order: 1 }] }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(9, dataSet.Count());
+            Assert.Equal(9, totalRecord);
+            Assert.Equal(1, dataSet.FirstOrDefault()?.Num1);
+            Assert.Equal(9, dataSet.LastOrDefault()?.Num1);
+        }
+        [Fact]
+        public void List_Multiple_Sorting_Desc_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: {}, first: 0, globalFilter: null, rows: 10, sortField: \"\",sortOrder: -1, multiSortMeta: [{ field: \"num1\", order: -1 }, { field: \"string1\", order: -1 }] }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(9, dataSet.Count());
+            Assert.Equal(9, totalRecord);
+            Assert.Equal(9, dataSet.FirstOrDefault()?.Num1);
+            Assert.Equal(1, dataSet.LastOrDefault()?.Num1);
+        }
+        [Fact]
+        public void List_Multiple_Sorting_Mix_Asc_Desc_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: {}, first: 0, globalFilter: null, rows: 10, sortField: \"\",sortOrder: -1, multiSortMeta: [{ field: \"num1\", order: 1 }, { field: \"string1\", order: -1 }] }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(9, dataSet.Count());
+            Assert.Equal(9, totalRecord);
+            Assert.Equal(1, dataSet.FirstOrDefault()?.Num1);
+            Assert.Equal(9, dataSet.LastOrDefault()?.Num1);
+            Assert.Equal("Test1", dataSet.FirstOrDefault()?.String1);
+            Assert.Equal("Test7", dataSet.LastOrDefault()?.String1);
+        }
+        
+        [Fact]
+        public void List_Multiple_Sorting_Mix_Desc_Asc_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: {}, first: 0, globalFilter: null, rows: 10, sortField: \"\",sortOrder: -1, multiSortMeta: [{ field: \"num1\", order: -1 }, { field: \"string1\", order: 1 }] }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(9, dataSet.Count());
+            Assert.Equal(9, totalRecord);
+            Assert.Equal(9, dataSet.FirstOrDefault()?.Num1);
+            Assert.Equal(1, dataSet.LastOrDefault()?.Num1);
+            Assert.Equal("Test7", dataSet.FirstOrDefault()?.String1);
+            Assert.Equal("Test1", dataSet.LastOrDefault()?.String1);
+        }
+        
+        [Fact]
+        public void List_Multiple_Sorting_Mix_Desc_Asc_Duplicate_First_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: {}, first: 0, globalFilter: null, rows: 10, sortField: \"\",sortOrder: -1, multiSortMeta: [{ field: \"string1\", order: -1 }, { field: \"num1\", order: 1 }] }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(9, dataSet.Count());
+            Assert.Equal(9, totalRecord);
+            Assert.Equal(8, dataSet.FirstOrDefault()?.Num1);
+            Assert.Equal(1, dataSet.LastOrDefault()?.Num1);
+            Assert.Equal("Test7", dataSet.FirstOrDefault()?.String1);
+            Assert.Equal("Test1", dataSet.LastOrDefault()?.String1);
+        }
     }
 }
