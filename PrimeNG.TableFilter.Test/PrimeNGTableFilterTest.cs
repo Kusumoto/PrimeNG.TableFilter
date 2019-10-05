@@ -14,20 +14,21 @@ namespace PrimeNG.TableFilter.Test
             public int Num1 { get; set; }
             public string String1 { get; set; }
             public DateTime DateTime1 { get; set; }
+            public DateTime? DateTime2 { get; set; }
         }
 
         public IQueryable<TestData> GenerateMockTestData()
         {
             return new List<TestData>
             {
-                new TestData { DateTime1  = new DateTime(2019, 1, 10), Num1 = 1, String1 = "Test1" },
+                new TestData { DateTime1  = new DateTime(2019, 1, 10), Num1 = 1, String1 = "Test1", DateTime2 = new DateTime(2019, 2, 10) },
                 new TestData { DateTime1 = new DateTime(2019, 1, 11), Num1 = 2, String1 = "Test2" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 12), Num1 = 3, String1 = "Test3" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 13), Num1 = 4, String1 = "Test4" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 14), Num1 = 5, String1 = "Test5" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 15), Num1 = 6, String1 = "Test5" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 16), Num1 = 7, String1 = "Test6" },
-                new TestData { DateTime1 = new DateTime(2019, 1, 17), Num1 = 8, String1 = "Test7" },
+                new TestData { DateTime1 = new DateTime(2019, 1, 17), Num1 = 8, String1 = "Test7", DateTime2 = new DateTime(2019, 2, 17) },
                 new TestData { DateTime1 = new DateTime(2019, 1, 18), Num1 = 9, String1 = "Test7" }
             }.AsQueryable();
         }
@@ -215,6 +216,18 @@ namespace PrimeNG.TableFilter.Test
             Assert.Equal(1, dataSet.LastOrDefault()?.Num1);
             Assert.Equal("Test7", dataSet.FirstOrDefault()?.String1);
             Assert.Equal("Test1", dataSet.LastOrDefault()?.String1);
+        }
+
+
+        [Fact]
+        public void List_Field_DateTime2_Where_2019_2_17_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: { dateTime2: { value: \"2019-02-17T00:00:00.000Z\", matchMode: \"equals\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10, sortField: \"Num1\",sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal("Test7", dataSet.FirstOrDefault()?.String1);
+            Assert.Equal(1, totalRecord);
         }
     }
 }
