@@ -24,9 +24,21 @@ namespace PrimeNG.TableFilter.Utils
             var propertyAccess = Expression.MakeMemberAccess(parameter, property ?? throw new InvalidOperationException());
             var propertyConstant = Expression.Constant(castValue, propertyType);
             var methodInfo = propertyType.GetMethod(extensionMethod, new[] { propertyType });
-            var callMethod = Expression.Call(propertyAccess, methodInfo ?? throw new InvalidOperationException(), propertyConstant);
-            var lambda = Expression.Lambda<Func<TEntity, bool>>(callMethod, parameter);
-            return source.Where(lambda);
+            if (propertyType.IsGenericType
+                && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>)
+                && propertyType == typeof(DateTime?))
+            {
+                var converted = Expression.Convert(propertyConstant, typeof(object));
+                var callMethod = Expression.Call(propertyAccess, methodInfo ?? throw new InvalidOperationException(), converted);
+                var lambda = Expression.Lambda<Func<TEntity, bool>>(callMethod, parameter);
+                return source.Where(lambda);
+            }
+            else
+            {
+                var callMethod = Expression.Call(propertyAccess, methodInfo ?? throw new InvalidOperationException(), propertyConstant);
+                var lambda = Expression.Lambda<Func<TEntity, bool>>(callMethod, parameter);
+                return source.Where(lambda);
+            }
         }
 
         public static IQueryable<TEntity> WhereWithList<TEntity>(this IQueryable<TEntity> source,
@@ -55,6 +67,8 @@ namespace PrimeNG.TableFilter.Utils
                 return arrayCast.ToObject<List<double>>();
             if (property?.PropertyType == typeof(DateTime))
                 return arrayCast.ToObject<List<DateTime>>();
+            if (property?.PropertyType == typeof(DateTime?))
+                return arrayCast.ToObject<List<DateTime?>>();
             return arrayCast.ToObject<List<string>>();
         }
 
@@ -65,6 +79,8 @@ namespace PrimeNG.TableFilter.Utils
             if (property?.PropertyType == typeof(double))
                 return Convert.ToDouble(value);
             if (property?.PropertyType == typeof(DateTime))
+                return Convert.ToDateTime(value);
+            if (property?.PropertyType == typeof(DateTime?))
                 return Convert.ToDateTime(value);
             return value;
         }
