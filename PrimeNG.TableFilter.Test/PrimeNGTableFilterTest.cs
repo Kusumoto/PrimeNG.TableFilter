@@ -229,5 +229,26 @@ namespace PrimeNG.TableFilter.Test
             Assert.Equal("Test7", dataSet.FirstOrDefault()?.String1);
             Assert.Equal(1, totalRecord);
         }
+        
+        [Fact]
+        public void List_No_Filter_Payload_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{}");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(9, totalRecord);
+            Assert.Equal(0, dataSet.Count());
+        }
+        
+        [Fact]
+        public void List_Field_Filter_Null_Value_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: { string1: { value: null, matchMode: \"startWith\" }, num1: { value: null, matchMode: \"startWith\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(9, totalRecord);
+        }
     }
 }

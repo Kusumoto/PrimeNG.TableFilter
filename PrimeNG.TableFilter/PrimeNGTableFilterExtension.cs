@@ -7,17 +7,17 @@ namespace PrimeNG.TableFilter
 {
     public static class PrimeNGTableFilterExtension
     {
-        public const string FilterTypeMatchModeStartsWith = "startsWith";
-        public const string FilterTypeMatchModeContains = "contains";
-        public const string FilterTypeMatchModeIn = "in";
-        public const string FilterTypeMatchModeEndsWith = "endsWith";
-        public const string FilterTypeMatchModeEquals = "equals";
+        private const string FilterTypeMatchModeStartsWith = "startsWith";
+        private const string FilterTypeMatchModeContains = "contains";
+        private const string FilterTypeMatchModeIn = "in";
+        private const string FilterTypeMatchModeEndsWith = "endsWith";
+        private const string FilterTypeMatchModeEquals = "equals";
 
         public static IQueryable<T> PrimengTableFilter<T>(this IQueryable<T> dataSet, TableFilterModel tableFilterPayload, ref int totalRecord)
         {
-            foreach (var filter in tableFilterPayload.Filters)
+            if (tableFilterPayload.Filters != null && tableFilterPayload.Filters.Any())
             {
-                dataSet = FilterDataSet(dataSet, filter);
+                dataSet = tableFilterPayload.Filters.Aggregate(dataSet, FilterDataSet);
             }
             totalRecord = dataSet.Count();
             if (!string.IsNullOrEmpty(tableFilterPayload.SortField))
@@ -39,17 +39,11 @@ namespace PrimeNG.TableFilter
                 switch (o.value.Order)
                 {
                     case (int)SortingEnumeration.OrderByAsc:
-                        if (o.i == 0)
-                            dataSet = dataSet.OrderBy(o.value.Field.FirstCharToUpper(), false);
-                        else
-                            dataSet = dataSet.ThenOrderBy(o.value.Field.FirstCharToUpper(), false);
+                        dataSet = o.i == 0 ? dataSet.OrderBy(o.value.Field.FirstCharToUpper(), false) : dataSet.ThenOrderBy(o.value.Field.FirstCharToUpper(), false);
                         break;
 
                     case (int)SortingEnumeration.OrderByDesc:
-                        if (o.i == 0)
-                            dataSet = dataSet.OrderBy(o.value.Field.FirstCharToUpper(), true);
-                        else
-                            dataSet = dataSet.ThenOrderBy(o.value.Field.FirstCharToUpper(), true);
+                        dataSet = o.i == 0 ? dataSet.OrderBy(o.value.Field.FirstCharToUpper(), true) : dataSet.ThenOrderBy(o.value.Field.FirstCharToUpper(), true);
                         break;
 
                     default:
@@ -80,6 +74,9 @@ namespace PrimeNG.TableFilter
 
         private static IQueryable<T> FilterDataSet<T>(IQueryable<T> dataSet, KeyValuePair<string, TableFilterContext> filter)
         {
+            if (filter.Value.Value == null)
+                return dataSet;
+            
             switch (filter.Value.MatchMode)
             {
                 case FilterTypeMatchModeStartsWith:
