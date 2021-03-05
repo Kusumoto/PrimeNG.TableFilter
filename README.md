@@ -58,3 +58,7 @@ public BaseTableResponseEntity<ClassRoomGridModel> GetClassRoom(TableFilterModel
             return MvcHelper.ResponseTableData(totalRecord, result);
         }
 ```
+
+MIT License
+
+Copyright (c) 2021 Weerayut Hongsa
