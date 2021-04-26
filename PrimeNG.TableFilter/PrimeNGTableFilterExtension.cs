@@ -12,6 +12,9 @@ namespace PrimeNG.TableFilter
         private const string FilterTypeMatchModeIn = "in";
         private const string FilterTypeMatchModeEndsWith = "endsWith";
         private const string FilterTypeMatchModeEquals = "equals";
+        private const string FilterTypeMatchModeNotContains = "notContains";
+        private const string FilterTypeMatchModeNotEquals = "notEquals";
+        
 
         public static IQueryable<T> PrimengTableFilter<T>(this IQueryable<T> dataSet, TableFilterModel tableFilterPayload, ref int totalRecord)
         {
@@ -97,6 +100,14 @@ namespace PrimeNG.TableFilter
 
                 case FilterTypeMatchModeEquals:
                     dataSet = dataSet.WhereWithExtensions("Equals", filter.Key.FirstCharToUpper(), filter.Value.Value);
+                    break;
+                
+                case FilterTypeMatchModeNotContains:
+                    dataSet = dataSet.WhereWithExtensions("Contains", filter.Key.FirstCharToUpper(), filter.Value.Value, true);
+                    break;
+                
+                case FilterTypeMatchModeNotEquals:
+                    dataSet = dataSet.WhereWithExtensions("Equals", filter.Key.FirstCharToUpper(), filter.Value.Value, true);
                     break;
 
                 default:
