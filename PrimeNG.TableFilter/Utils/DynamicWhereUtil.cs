@@ -10,32 +10,58 @@ namespace PrimeNG.TableFilter.Utils
     public static class DynamicWhereUtil
     {
         public static IQueryable<TEntity> WhereWithExtensions<TEntity>(this IQueryable<TEntity> source,
-            string extensionMethod, string propertyName, object propertyValue)
+            string extensionMethod, string propertyName, object propertyValue, bool isNegation = false)
         {
             var type = typeof(TEntity);
             var property = type.GetProperty(propertyName);
             var propertyType = property?.PropertyType;
 
             if (propertyType != typeof(string) && extensionMethod != "Equals")
-                throw new ArgumentException("Method not support!");
+            {
+                Console.WriteLine($"Property ${propertyName} not support method ${extensionMethod}");
+                return source;
+            }
+
+            if (propertyType == null)
+                return source;
 
             var castValue = CastPropertiesType(property, propertyValue);
             var parameter = Expression.Parameter(type, "e");
-            var propertyAccess = Expression.MakeMemberAccess(parameter, property ?? throw new InvalidOperationException());
+            var propertyAccess =
+                Expression.MakeMemberAccess(parameter, property ?? throw new InvalidOperationException());
             var propertyConstant = Expression.Constant(castValue, propertyType);
-            var methodInfo = propertyType.GetMethod(extensionMethod, new[] { propertyType });
+            var methodInfo = propertyType.GetMethod(extensionMethod, new[] {propertyType});
             if (propertyType.IsGenericType
                 && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>)
                 && propertyType == typeof(DateTime?))
             {
                 var converted = Expression.Convert(propertyConstant, typeof(object));
-                var callMethod = Expression.Call(propertyAccess, methodInfo ?? throw new InvalidOperationException(), converted);
+                if (isNegation)
+                {
+                    var callMethod = Expression.Not(Expression.Call(propertyAccess,
+                        methodInfo ?? throw new InvalidOperationException(), converted));
+                    var lambda = Expression.Lambda<Func<TEntity, bool>>(callMethod, parameter);
+                    return source.Where(lambda);
+                }
+                else
+                {
+                    var callMethod = Expression.Call(propertyAccess,
+                        methodInfo ?? throw new InvalidOperationException(), converted);
+                    var lambda = Expression.Lambda<Func<TEntity, bool>>(callMethod, parameter);
+                    return source.Where(lambda);
+                }
+            }
+            if (isNegation)
+            {
+                var callMethod = Expression.Not(Expression.Call(propertyAccess,
+                    methodInfo ?? throw new InvalidOperationException(), propertyConstant));
                 var lambda = Expression.Lambda<Func<TEntity, bool>>(callMethod, parameter);
                 return source.Where(lambda);
             }
             else
             {
-                var callMethod = Expression.Call(propertyAccess, methodInfo ?? throw new InvalidOperationException(), propertyConstant);
+                var callMethod = Expression.Call(propertyAccess,
+                    methodInfo ?? throw new InvalidOperationException(), propertyConstant);
                 var lambda = Expression.Lambda<Func<TEntity, bool>>(callMethod, parameter);
                 return source.Where(lambda);
             }
@@ -47,6 +73,10 @@ namespace PrimeNG.TableFilter.Utils
             var type = typeof(TEntity);
             var property = type.GetProperty(propertyName);
             var propertyType = property?.PropertyType;
+            
+            if (propertyType == null)
+                return source;
+            
             var castValue = CastPropertiesTypeList(property, propertyValue);
             var methodInfo = castValue.GetType().GetMethod("Contains", new[] { propertyType });
 
@@ -82,7 +112,7 @@ namespace PrimeNG.TableFilter.Utils
                 return Convert.ToDateTime(value);
             if (property?.PropertyType == typeof(DateTime?))
                 return Convert.ToDateTime(value);
-            return value;
+            return value.ToString();
         }
 
     }

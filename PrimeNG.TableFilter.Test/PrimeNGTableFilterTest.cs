@@ -245,10 +245,40 @@ namespace PrimeNG.TableFilter.Test
         public void List_Field_Filter_Null_Value_Test()
         {
             var totalRecord = 0;
-            var filter = GenerateFilterTableFromJson("{ filters: { string1: { value: null, matchMode: \"startWith\" }, num1: { value: null, matchMode: \"startWith\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var filter = GenerateFilterTableFromJson("{ filters: { string1: { value: null, matchMode: \"startsWith\" }, num1: { value: null, matchMode: \"startsWith\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
             var dataSet = GenerateMockTestData();
             dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
             Assert.Equal(9, totalRecord);
+        }
+
+        [Fact] 
+        public void List_Field_Filter_Not_Found_In_Entity_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: { string2: { value: \"Test\", matchMode: \"equals\" } } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(9, totalRecord);
+        }
+        
+        [Fact] 
+        public void List_Field_Filter_Not_Contain_In_Test1_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: { string1: { value: \"Test5\", matchMode: \"notContains\" } } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(7, totalRecord);
+        }
+        
+        [Fact] 
+        public void List_Field_Filter_Not_Equals_In_Test1_Test()
+        {
+            var totalRecord = 0;
+            var filter = GenerateFilterTableFromJson("{ filters: { string1: { value: \"Test1\", matchMode: \"notEquals\" } } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, ref totalRecord);
+            Assert.Equal(8, totalRecord);
         }
     }
 }
