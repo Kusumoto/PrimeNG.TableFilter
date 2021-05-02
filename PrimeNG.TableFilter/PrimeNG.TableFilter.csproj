@@ -8,11 +8,11 @@
     <PackageProjectUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</RepositoryUrl>
     <Version>1.0.4</Version>
-    <PackageVersion>1.0.4</PackageVersion>
+    <PackageVersion>2.0.0</PackageVersion>
     <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <AssemblyVersion>1.0.4.0</AssemblyVersion>
-    <FileVersion>1.0.4.0</FileVersion>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
     <Copyright>2021 Copyright by Weerayut Hongsa</Copyright>
   </PropertyGroup>
   <ItemGroup>
