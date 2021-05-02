@@ -5,5 +5,4 @@ dist: bionic
 install:
  - dotnet restore
 script:
- - dotnet build
  - dotnet test PrimeNG.TableFilter.Test/PrimeNG.TableFilter.Test.csproj
