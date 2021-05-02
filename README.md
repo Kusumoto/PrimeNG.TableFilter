@@ -5,6 +5,9 @@
 
 Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity
 
+## Breaking change in version 2.0
+If you use PrimeNG.TableFilter version 1.x.x you will need to migrate your implementation code. Please delete total record variable  and change to get total record from variable out in extension. You can looking for implementation guide line in unit test.
+
 ## .Net Platform Support
 
 - .Net Standard 2.0
@@ -16,6 +19,10 @@ Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity
 - Handle all command from PrimeNG table filter frontend
 - Filter criteria from PrimeNG table filter in Iterators and Entities
 - Convert PrimeNG table filter payload to SQL Query (use LINQ to Entities)
+
+## Release Note
+[Completely handle PrimeNG table load lazy in ASP.NET use PrimeNG.TableFilter (kusumotolab.com)](https://kusumotolab.com/completely-handle-primeng-table-load-lazy-in-asp-net-use-primeng-tablefilter/)
+
 
 ## Install via Nuget Package Manager
 
@@ -39,7 +46,6 @@ PM> Install-Package PrimeNG.TableFilter
 ```C#
 public BaseTableResponseEntity<ClassRoomGridModel> GetClassRoom(TableFilterModel filterPayload)
         {
-            var totalRecord = 0; // for summary all record before pagination
             var result = _classRoomRepository.Gets()
                 .Select(o =>
                     new ClassRoomGridModel
@@ -54,7 +60,7 @@ public BaseTableResponseEntity<ClassRoomGridModel> GetClassRoom(TableFilterModel
                         Type = GenerateClassRoomTypeToText(o.Type)
                     }
                 );
-            result = result.PrimengTableFilter(filterPayload, ref totalRecord);
+            result = result.PrimengTableFilter(filterPayload, out  var totalRecord);
             return MvcHelper.ResponseTableData(totalRecord, result);
         }
 ```
