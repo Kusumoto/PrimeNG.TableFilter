@@ -8,5 +8,6 @@ namespace PrimeNG.TableFilter.Test
         public string String1 { get; set; }
         public DateTime DateTime1 { get; set; }
         public DateTime? DateTime2 { get; set; }
+        public int? Num2 { get; set; }
     }
 }
