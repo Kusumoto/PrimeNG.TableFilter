@@ -54,10 +54,10 @@ namespace PrimeNG.TableFilter.Core
                     property ?? throw new InvalidOperationException());
             var methodInfo = propertyType.GetMethod(extensionMethod, new[] {propertyType});
             var castValue = ObjectCasterUtil.CastPropertiesType(property, propertyValue);
-            var propertyConstant = Expression.Constant(castValue, propertyType);
+            var propertyConstant = Expression.Convert(Expression.Constant(castValue), propertyType);
             if (propertyType.IsGenericType
                 && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>)
-                && propertyType == typeof(DateTime?))
+                && (propertyType == typeof(DateTime?) || propertyType == typeof(int?) || propertyType == typeof(double?)))
             {
                 var converted = Expression.Convert(propertyConstant, typeof(object));
                 if (isNegation)
@@ -101,7 +101,6 @@ namespace PrimeNG.TableFilter.Core
                 switch (operatorAction)
                 {
                     case OperatorEnumeration.And:
-
                         _context.Expressions =
                             Expression.Lambda<Func<TEntity, bool>>(
                                 Expression.AndAlso(_context.Expressions.Body, lambda.Body),

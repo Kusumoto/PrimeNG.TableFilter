@@ -15,6 +15,10 @@ namespace PrimeNG.TableFilter.Utils
                 return arrayCast.ToObject<List<int>>();
             if (property?.PropertyType == typeof(double))
                 return arrayCast.ToObject<List<double>>();
+            if (property?.PropertyType == typeof(int?))
+                return arrayCast.ToObject<List<int?>>();
+            if (property?.PropertyType == typeof(double?))
+                return arrayCast.ToObject<List<double?>>();
             if (property?.PropertyType == typeof(DateTime))
                 return arrayCast.ToObject<List<DateTime>>();
             if (property?.PropertyType == typeof(DateTime?))
@@ -27,6 +31,10 @@ namespace PrimeNG.TableFilter.Utils
             if (property?.PropertyType == typeof(int))
                 return Convert.ToInt32(value);
             if (property?.PropertyType == typeof(double))
+                return Convert.ToDouble(value);
+            if (property?.PropertyType == typeof(int?))
+                return Convert.ToInt32(value);
+            if (property?.PropertyType == typeof(double?))
                 return Convert.ToDouble(value);
             if (property?.PropertyType == typeof(DateTime))
                 return Convert.ToDateTime(value);

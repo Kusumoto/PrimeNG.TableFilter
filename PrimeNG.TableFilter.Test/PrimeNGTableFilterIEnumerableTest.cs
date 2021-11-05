@@ -13,18 +13,26 @@ namespace PrimeNG.TableFilter.Test
         {
             return new List<TestData>
             {
-                new TestData { DateTime1  = new DateTime(2019, 1, 10), Num1 = 1, String1 = "Test1", DateTime2 = new DateTime(2019, 2, 10) },
-                new TestData { DateTime1 = new DateTime(2019, 1, 11), Num1 = 2, String1 = "Test2" },
-                new TestData { DateTime1 = new DateTime(2019, 1, 12), Num1 = 3, String1 = "Test3" },
-                new TestData { DateTime1 = new DateTime(2019, 1, 13), Num1 = 4, String1 = "Test4" },
+                new TestData
+                {
+                    DateTime1 = new DateTime(2019, 1, 10), Num1 = 1, String1 = "Test1",
+                    DateTime2 = new DateTime(2019, 2, 10), Num2 = 1
+                },
+                new TestData { DateTime1 = new DateTime(2019, 1, 11), Num1 = 2, String1 = "Test2", Num2 = 2 },
+                new TestData { DateTime1 = new DateTime(2019, 1, 12), Num1 = 3, String1 = "Test3", Num2 = 1 },
+                new TestData { DateTime1 = new DateTime(2019, 1, 13), Num1 = 4, String1 = "Test4", Num2 = 6 },
                 new TestData { DateTime1 = new DateTime(2019, 1, 14), Num1 = 5, String1 = "Test5" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 15), Num1 = 6, String1 = "Test5" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 16), Num1 = 7, String1 = "Test6" },
-                new TestData { DateTime1 = new DateTime(2019, 1, 17), Num1 = 8, String1 = "Test7", DateTime2 = new DateTime(2019, 2, 17) },
+                new TestData
+                {
+                    DateTime1 = new DateTime(2019, 1, 17), Num1 = 8, String1 = "Test7",
+                    DateTime2 = new DateTime(2019, 2, 17)
+                },
                 new TestData { DateTime1 = new DateTime(2019, 1, 18), Num1 = 9, String1 = "Test7" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 18), Num1 = 9, String1 = "Best1" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 18), Num1 = 9, String1 = "Best2" },
-                new TestData { DateTime1 = new DateTime(2019, 1, 18), Num1 = 9, String1 = "Best3" },
+                new TestData { DateTime1 = new DateTime(2019, 1, 18), Num1 = 9, String1 = "Best3", Num2 = 5 },
             };
         }
 
@@ -270,6 +278,16 @@ namespace PrimeNG.TableFilter.Test
             var filter = GenerateFilterTableFromJson("{ filters: { string1: [ { matchMode: \"contains\", operator: \"and\", value: \"Best\" }, { matchMode: \"contains\", operator: \"and\", value: \"3\" } ] } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
             var dataSet = GenerateMockTestData();
             dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(1, totalRecord);
+        }
+        
+        [Fact]
+        public void Order_Table_Field_Num2_Where_5_Test()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { num2: { value: 5, matchMode: \"equals\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10, sortField: \"Num1\",sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal("Best3", dataSet.FirstOrDefault()?.String1);
             Assert.Equal(1, totalRecord);
         }
     }
