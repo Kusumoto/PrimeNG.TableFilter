@@ -151,6 +151,27 @@ namespace PrimeNG.TableFilter.Core
                         LinqOperatorConstants.ConstantAfter
                         , operatorAction);
                     break;
+                case FilterTypeMatchModeLessThan:
+                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                        LinqOperatorConstants.ConstantLessThan
+                        , operatorAction);
+                    break;
+                case FilterTypeMatchModeLessOrEqualsThan:
+                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                        LinqOperatorConstants.ConstantLessThanOrEqual
+                        , operatorAction);
+                    break;
+                case FilterTypeMatchModeGreaterThan:
+                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                        LinqOperatorConstants.ConstantGreaterThan
+                        , operatorAction);
+                    break;
+                case FilterTypeMatchModeGreaterOrEqualsThan:
+                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                        LinqOperatorConstants.ConstantGreaterThanOrEqual
+                        , operatorAction);
+                    break;
+
 
                 default:
                     throw new System.ArgumentException("Invalid Match mode!");

@@ -374,6 +374,48 @@ namespace PrimeNG.TableFilter.Test
         [Fact]
         [Trait("Category", "Nullable")]
         [Trait("Type", "Short")]
+        public void NullablShortFilterShouldReturnLessThan_6()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableShort: { value: 6, matchMode: \"lt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Short")]
+        public void NullablShortFilterShouldReturnLessOrEquals_6()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableShort: { value: 6, matchMode: \"lte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableShort <= 6);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted,totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Short")]
+        public void NullablShortFilterShouldReturnGreaterThan_5()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableShort: { value: 5, matchMode: \"gt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Short")]
+        public void NullablShortFilterShouldReturnGreaterOrEquals_5()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableShort: { value: 5, matchMode: \"gte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableShort >= 5);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Short")]
         public void NullablShortFilterShouldReturnTestDataWithoutNullableShort5()
         {
             var filter = GenerateFilterTableFromJson("{ filters: { nullableShort: { value: 5, matchMode: \"notEquals\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
@@ -427,6 +469,48 @@ namespace PrimeNG.TableFilter.Test
             var dataSet = GenerateMockTestData();
             dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
             Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Int")]
+        public void NullableIntFilterShouldReturnLessThan_13()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableInt: { value: 13, matchMode: \"lt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Int")]
+        public void NullableIntFilterShouldReturnLessOrEquals_13()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableInt: { value: 13, matchMode: \"lte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableInt <= 13);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Int")]
+        public void NullableIntFilterShouldReturnGreaterThan_12()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableInt: { value: 12, matchMode: \"gt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Int")]
+        public void NullableIntFilterShouldReturnGreaterOrEquals_12()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableInt: { value: 12, matchMode: \"gte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableInt >= 12);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
         }
         [Fact]
         [Trait("Category", "Nullable")]
@@ -488,6 +572,48 @@ namespace PrimeNG.TableFilter.Test
         [Fact]
         [Trait("Category", "Nullable")]
         [Trait("Type", "Long")]
+        public void NullableLongFilterShouldReturnLessThan_56()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableLong: { value: 56, matchMode: \"lt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Long")]
+        public void NullableLongFilterShouldReturnLessOrEquals_56()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableLong: { value: 56, matchMode: \"lte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableLong <= 56);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Long")]
+        public void NullableLongFilterShouldReturnGreaterThan_55()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableLong: { value: 55, matchMode: \"gt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Long")]
+        public void NullableLongFilterShouldReturnGreaterOrEquals_55()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableLong: { value: 55, matchMode: \"gte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableLong >= 55);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Long")]
         public void NullableLongFilterShouldReturnTestDataWithoutNullableLong55()
         {
             var filter = GenerateFilterTableFromJson("{ filters: { nullableLong: { value: 55, matchMode: \"notEquals\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
@@ -542,6 +668,48 @@ namespace PrimeNG.TableFilter.Test
             var dataSet = GenerateMockTestData();
             dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
             Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Float")]
+        public void NullableFloatFilterShouldReturnLessThan_5_2()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableFloat: { value: 5.2, matchMode: \"lt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Float")]
+        public void NullableFloatFilterShouldReturnLessOrEquals_5_2()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableFloat: { value: 5.2, matchMode: \"lte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableFloat <= (float?)5.2);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Float")]
+        public void NullableFloatFilterShouldReturnGreaterThan_5_1()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableFloat: { value: 5.1, matchMode: \"gt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Float")]
+        public void NullableFloatFilterShouldReturnGreaterOrEquals_5_1()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableFloat: { value: 5.1, matchMode: \"gte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableFloat >= (float?)5.1);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
         }
         [Fact]
         [Trait("Category", "Nullable")]
@@ -609,7 +777,49 @@ namespace PrimeNG.TableFilter.Test
             dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
             Assert.Single(dataSet);
         }
-        
+        [Fact]
+        [Trait("Category", "Nullable")] 
+        [Trait("Type", "Double")]
+        public void NullableDoubleFilterShouldReturnLessThan_10_3()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableDouble: { value: 10.3, matchMode: \"lt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Double")]
+        public void NullableDoubleFilterShouldReturnLessOrEquals_10_3()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableDouble: { value: 10.3, matchMode: \"lte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableDouble <= (double?)10.3);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Double")]
+        public void NullableDoubleFilterShouldReturnGreaterThan_10_2()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableDouble: { value: 10.2, matchMode: \"gt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Double")]
+        public void NullableDoubleFilterShouldReturnGreaterOrEquals_10_2()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableDouble: { value: 10.2, matchMode: \"gte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableDouble >= (double?)10.2);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+
         [Fact]
         [Trait("Category", "Nullable")]
         [Trait("Type", "Double")]
@@ -668,6 +878,48 @@ namespace PrimeNG.TableFilter.Test
             var dataSet = GenerateMockTestData();
             dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
             Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Decimal")]
+        public void NullableDecimalFilterShouldReturnLessThan_22_6()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableDecimal: { value: 22.6, matchMode: \"lt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Decimal")]
+        public void NullableDecimalFilterShouldReturnLessOrEquals_22_6()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableDecimal: { value: 22.6, matchMode: \"lte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableDecimal <= (decimal?)22.6);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Decimal")]
+        public void NullableDecimalFilterShouldReturnGreaterThan_22_5()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableDecimal: { value: 22.5, matchMode: \"gt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Decimal")]
+        public void NullableDecimalFilterShouldReturnGreaterOrEquals_22_5()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableDecimal: { value: 22.5, matchMode: \"gte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableDecimal >= (decimal?)22.5);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
         }
         [Fact]
         [Trait("Category", "Nullable")]
