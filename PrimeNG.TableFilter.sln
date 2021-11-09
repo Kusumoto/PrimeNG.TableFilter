@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimeNG.TableFilter", "PrimeNG.TableFilter\PrimeNG.TableFilter.csproj", "{24E4B117-295E-4C8D-B18C-4FD23F791B71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimeNG.TableFilter", "PrimeNG.TableFilter\PrimeNG.TableFilter.csproj", "{24E4B117-295E-4C8D-B18C-4FD23F791B71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrimeNG.TableFilter.Test", "PrimeNG.TableFilter.Test\PrimeNG.TableFilter.Test.csproj", "{0EE1CF24-9897-481C-B902-3DBDD98D0CBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimeNG.TableFilter.Test", "PrimeNG.TableFilter.Test\PrimeNG.TableFilter.Test.csproj", "{0EE1CF24-9897-481C-B902-3DBDD98D0CBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{24E4B117-295E-4C8D-B18C-4FD23F791B71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,5 +41,11 @@ Global
 		{0EE1CF24-9897-481C-B902-3DBDD98D0CBD}.Release|x64.Build.0 = Release|Any CPU
 		{0EE1CF24-9897-481C-B902-3DBDD98D0CBD}.Release|x86.ActiveCfg = Release|Any CPU
 		{0EE1CF24-9897-481C-B902-3DBDD98D0CBD}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D0017ED-B2A8-4CB1-A610-3095748C1A04}
 	EndGlobalSection
 EndGlobal

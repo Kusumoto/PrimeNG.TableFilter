@@ -9,11 +9,25 @@ namespace PrimeNG.TableFilter.Core
     {
         private const string FilterTypeMatchModeStartsWith = "startsWith";
         private const string FilterTypeMatchModeContains = "contains";
-        private const string FilterTypeMatchModeIn = "in";
+        private const string FilterTypeMatchModeNotContains = "notContains";
         private const string FilterTypeMatchModeEndsWith = "endsWith";
         private const string FilterTypeMatchModeEquals = "equals";
-        private const string FilterTypeMatchModeNotContains = "notContains";
         private const string FilterTypeMatchModeNotEquals = "notEquals";
+        private const string FilterTypeMatchModeIn = "in";
+        private const string FilterTypeMatchModeLessThan = "lt";
+        private const string FilterTypeMatchModeLessOrEqualsThan = "lte";
+        private const string FilterTypeMatchModeGreaterThan = "gt";
+        private const string FilterTypeMatchModeGreaterOrEqualsThan = "gte";
+        private const string FilterTypeMatchModeBetween = "between";
+        private const string FilterTypeMatchModeIs = "is";
+        private const string FilterTypeMatchModeIsNot = "isNot";
+        private const string FilterTypeMatchModeBefore = "before";
+        private const string FilterTypeMatchModeAfter = "after";
+        private const string FilterTypeMatchModeDateIs = "dateIs";
+        private const string FilterTypeMatchModeDateIsNot = "dateIsNot";
+        private const string FilterTypeMatchModeDateBefore = "dateBefore";
+        private const string FilterTypeMatchModeDateAfter = "dateAfter";
+
 
         private readonly ILinqOperator<TEntity> _linqOperator;
 
@@ -116,6 +130,26 @@ namespace PrimeNG.TableFilter.Core
                     _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
                         LinqOperatorConstants.ConstantEquals
                         , operatorAction, true);
+                    break;
+                case FilterTypeMatchModeDateIs:
+                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                        LinqOperatorConstants.ConstantDateIs
+                        , operatorAction);
+                    break;
+                case FilterTypeMatchModeDateIsNot:
+                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                        LinqOperatorConstants.ConstantDateIs
+                        , operatorAction,true);
+                    break;
+                case FilterTypeMatchModeDateBefore:
+                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                        LinqOperatorConstants.ConstantBefore
+                        , operatorAction);
+                    break;
+                case FilterTypeMatchModeDateAfter:
+                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                        LinqOperatorConstants.ConstantAfter
+                        , operatorAction);
                     break;
 
                 default:
