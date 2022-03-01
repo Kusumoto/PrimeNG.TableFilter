@@ -39,8 +39,9 @@ namespace PrimeNG.TableFilter
                         }
                         case JObject _:
                         {
-                            var filter = filterToken.ToObject<TableFilterContext>();
-                            tableFilterManager.FilterDataSet(filterContext.Key, filter);
+                                //var filter = filterToken.ToObject<TableFilterContext>(JsonSerializer.Create( new JsonSerializerSettings() { DateParseHandling= DateParseHandling.DateTime })) ;
+                                var filter = filterToken.ToObject<TableFilterContext>();
+                                tableFilterManager.FilterDataSet(filterContext.Key, filter);
                             break;
                         }
                     }
