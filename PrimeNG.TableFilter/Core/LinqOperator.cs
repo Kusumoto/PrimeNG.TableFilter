@@ -51,58 +51,52 @@ namespace PrimeNG.TableFilter.Core
                 throw new ArgumentException($"Property ${propertyName} not support method ${extensionMethod}");
             }
 
-
             var castValue = ObjectCasterUtil.CastPropertiesType(property, propertyValue);
             var propertyConstant = Expression.Constant(castValue, propertyType);
 
             if (IsNullableType(propertyType))
             {
-                var converted = Expression.Convert(propertyConstant, typeof(object));
-                if (castValue.GetType() == typeof(DateTime))
+                switch (castValue)
                 {
-                    ComposeLambdaForDateTimeProperty(propertyName, extensionMethod, operatorAction, isNegation, castValue);
+                    case DateTime _:
+                        ComposeLambdaForDateTimeProperty(propertyName, extensionMethod, operatorAction, isNegation, castValue);
+                        break;
+                    case bool _:
+                        // boolean only have "equals" and "notEquals" match modes
+                        ComposeEqualsLinqExpression(propertyName, operatorAction, isNegation, castValue, _context.ParameterExpression);
+                        break;
+                    // nullable numeric type
+                    default:
+                        ComposeLambdaForNumericProperty(propertyName, extensionMethod, operatorAction, isNegation, castValue);
+                        break;
                 }
-                else if (castValue.GetType() == typeof(bool))
-                {
-                    // boolean only have "equals" and "notEquals" match modes
-                    ComposeEqualsLinqExpression(propertyName, operatorAction, isNegation, castValue, _context.ParameterExpression);
-                }
-                // nullable numeric type
-                else
-                {
-                    ComposeLambdaForNumericProperty(propertyName, extensionMethod, operatorAction, isNegation, castValue);
-                }
-
-
             }
             else
             {
-                if (castValue.GetType() == typeof(DateTime))
+                switch (castValue)
                 {
-                    ComposeLambdaForDateTimeProperty(propertyName, extensionMethod, operatorAction, isNegation, castValue);
-                }
-                else if (castValue.GetType() == typeof(bool))
-                {
-                    ComposeEqualsLinqExpression(propertyName, operatorAction, isNegation, castValue, _context.ParameterExpression);
-                    return;
-                }
-                else if (castValue.GetType() == typeof(string))
-                {
-                    var propertyAccess = Expression.MakeMemberAccess(_context.ParameterExpression,
-                                        property ?? throw new InvalidOperationException());
+                    case DateTime _:
+                        ComposeLambdaForDateTimeProperty(propertyName, extensionMethod, operatorAction, isNegation, castValue);
+                        break;
+                    case bool _:
+                        ComposeEqualsLinqExpression(propertyName, operatorAction, isNegation, castValue, _context.ParameterExpression);
+                        return;
+                    case string _:
+                        {
+                            var propertyAccess = Expression.MakeMemberAccess(_context.ParameterExpression,
+                                property ?? throw new InvalidOperationException());
 
-                    var methodInfo = propertyType.GetMethod(extensionMethod, new[] { propertyType });
-                    if (isNegation)
-                        AddNegationExpression(operatorAction, propertyAccess, methodInfo, propertyConstant);
-                    else
-                        AddNormalExpression(operatorAction, propertyAccess, methodInfo, propertyConstant);
-
-                }
-                // nullable numeric type
-                else
-                {
-                    ComposeLambdaForNumericProperty(propertyName, extensionMethod, operatorAction, isNegation, castValue);
-
+                            var methodInfo = propertyType.GetMethod(extensionMethod, new[] { propertyType });
+                            if (isNegation)
+                                AddNegationExpression(operatorAction, propertyAccess, methodInfo, propertyConstant);
+                            else
+                                AddNormalExpression(operatorAction, propertyAccess, methodInfo, propertyConstant);
+                            break;
+                        }
+                    // nullable numeric type
+                    default:
+                        ComposeLambdaForNumericProperty(propertyName, extensionMethod, operatorAction, isNegation, castValue);
+                        break;
                 }
             }
 
@@ -154,6 +148,7 @@ namespace PrimeNG.TableFilter.Core
                                 Expression.OrElse(_context.Expressions.Body, lambda.Body),
                                 _context.ParameterExpression);
                         break;
+                    case OperatorEnumeration.None:
                     default:
                         _context.Expressions =
                             Expression.Lambda<Func<TEntity, bool>>(
@@ -208,7 +203,7 @@ namespace PrimeNG.TableFilter.Core
         /// </summary>
         /// <param name="propertyType">Type to check</param>
         /// <returns><code>True</code> if nullable, otherwise <code>False</code></returns>
-        private bool IsNumericType(Type propertyType)
+        private static bool IsNumericType(Type propertyType)
         {
             return (propertyType == typeof(short) || propertyType == typeof(short?) || propertyType == typeof(int) || propertyType == typeof(int?) || propertyType == typeof(long) || propertyType == typeof(long?)
                   || propertyType == typeof(float) || propertyType == typeof(float?) || propertyType == typeof(double) || propertyType == typeof(double?) || propertyType == typeof(decimal) || propertyType == typeof(decimal?));
@@ -219,30 +214,28 @@ namespace PrimeNG.TableFilter.Core
         /// <param name="propertyType">Type of filter value instance</param>
         /// <param name="extensionMethod">Method to check for provided <paramref name="propertyType"/> </param>
         /// <returns></returns>
-        private bool IsPropertyTypeAndFilterMatchModeValid(Type propertyType, string extensionMethod)
+        private static bool IsPropertyTypeAndFilterMatchModeValid(Type propertyType, string extensionMethod)
         {
             if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
             {
-                var validDateTimeLinqMethods = new string[] { LinqOperatorConstants.ConstantDateIs, LinqOperatorConstants.ConstantBefore, LinqOperatorConstants.ConstantAfter };
+                var validDateTimeLinqMethods = new[] { LinqOperatorConstants.ConstantDateIs, LinqOperatorConstants.ConstantBefore, LinqOperatorConstants.ConstantAfter };
                 return validDateTimeLinqMethods.Contains(extensionMethod);
             }
-            else if (propertyType == typeof(string))
+
+            if (propertyType == typeof(string))
             {
-                var validStringLinqMethods = new string[] { LinqOperatorConstants.ConstantEquals, LinqOperatorConstants.ConstantEndsWith, LinqOperatorConstants.ConstantContains, LinqOperatorConstants.ConstantStartsWith };
+                var validStringLinqMethods = new[] { LinqOperatorConstants.ConstantEquals, LinqOperatorConstants.ConstantEndsWith, LinqOperatorConstants.ConstantContains, LinqOperatorConstants.ConstantStartsWith };
                 return validStringLinqMethods.Contains(extensionMethod);
             }
-            else if (propertyType == typeof(bool) || propertyType == typeof(bool?))
+
+            if (propertyType == typeof(bool) || propertyType == typeof(bool?))
             {
                 return LinqOperatorConstants.ConstantEquals == extensionMethod;
             }
-            else if (IsNumericType(propertyType))
-            {
-                var validNumericMethods = new string[] { LinqOperatorConstants.ConstantEquals, LinqOperatorConstants.ConstantLessThan, LinqOperatorConstants.ConstantLessThanOrEqual, LinqOperatorConstants.ConstantGreaterThan, LinqOperatorConstants.ConstantGreaterThanOrEqual };
-                return validNumericMethods.Contains(extensionMethod);
-            }
-            else
-                return false;
 
+            if (!IsNumericType(propertyType)) return false;
+            var validNumericMethods = new[] { LinqOperatorConstants.ConstantEquals, LinqOperatorConstants.ConstantLessThan, LinqOperatorConstants.ConstantLessThanOrEqual, LinqOperatorConstants.ConstantGreaterThan, LinqOperatorConstants.ConstantGreaterThanOrEqual };
+            return validNumericMethods.Contains(extensionMethod);
         }
 
 
@@ -263,12 +256,12 @@ namespace PrimeNG.TableFilter.Core
             {
                 case LinqOperatorConstants.ConstantEquals:
                     {
-                        dynamicExpression = ComposeEqualsLinqExpression(propertyName, operatorAction, isNegation, castValue, x);
+                        ComposeEqualsLinqExpression(propertyName, operatorAction, isNegation, castValue, x);
                         break;
                     }
                 case LinqOperatorConstants.ConstantLessThan:
                     {
-                        dynamicExpression = DynamicExpressionParser.ParseLambda(new ParameterExpression[] { x }, null, $"{propertyName}<@0", castValue);
+                        dynamicExpression = DynamicExpressionParser.ParseLambda(new[] { x }, null, $"{propertyName}<@0", castValue);
                         if (isNegation)
                             AddNegationExpression(operatorAction, dynamicExpression.Body);
                         else
@@ -277,7 +270,7 @@ namespace PrimeNG.TableFilter.Core
                     }
                 case LinqOperatorConstants.ConstantLessThanOrEqual:
                     {
-                        dynamicExpression = DynamicExpressionParser.ParseLambda(new ParameterExpression[] { x }, null, $"{propertyName}<=@0", castValue);
+                        dynamicExpression = DynamicExpressionParser.ParseLambda(new[] { x }, null, $"{propertyName}<=@0", castValue);
                         if (isNegation)
                             AddNegationExpression(operatorAction, dynamicExpression.Body);
                         else
@@ -286,7 +279,7 @@ namespace PrimeNG.TableFilter.Core
                     }
                 case LinqOperatorConstants.ConstantGreaterThan:
                     {
-                        dynamicExpression = DynamicExpressionParser.ParseLambda(new ParameterExpression[] { x }, null, $"{propertyName}>@0", castValue);
+                        dynamicExpression = DynamicExpressionParser.ParseLambda(new[] { x }, null, $"{propertyName}>@0", castValue);
                         if (isNegation)
                             AddNegationExpression(operatorAction, dynamicExpression.Body);
                         else
@@ -295,27 +288,24 @@ namespace PrimeNG.TableFilter.Core
                     }
                 case LinqOperatorConstants.ConstantGreaterThanOrEqual:
                     {
-                        dynamicExpression = DynamicExpressionParser.ParseLambda(new ParameterExpression[] { x }, null, $"{propertyName}>=@0", castValue);
+                        dynamicExpression = DynamicExpressionParser.ParseLambda(new[] { x }, null, $"{propertyName}>=@0", castValue);
                         if (isNegation)
                             AddNegationExpression(operatorAction, dynamicExpression.Body);
                         else
                             AddNormalExpression(operatorAction, dynamicExpression.Body);
                         break;
                     }
-
-                default:
-                    break;
             }
         }
 
-        private LambdaExpression ComposeEqualsLinqExpression(string propertyName, OperatorEnumeration operatorAction, bool isNegation, object castValue, ParameterExpression x)
+        private void ComposeEqualsLinqExpression(string propertyName, OperatorEnumeration operatorAction,
+            bool isNegation, object castValue, ParameterExpression x)
         {
-            LambdaExpression dynamicExpression = DynamicExpressionParser.ParseLambda(new ParameterExpression[] { x }, null, $"{propertyName}==@0", castValue);
+            var dynamicExpression = DynamicExpressionParser.ParseLambda(new[] { x }, null, $"{propertyName}==@0", castValue);
             if (isNegation)
                 AddNegationExpression(operatorAction, dynamicExpression.Body);
             else
                 AddNormalExpression(operatorAction, dynamicExpression.Body);
-            return dynamicExpression;
         }
 
         /// <summary>
@@ -330,19 +320,19 @@ namespace PrimeNG.TableFilter.Core
         {
             var dateTime = (DateTime)castValue;
             LambdaExpression dynamicExpression;
-            bool hoursDefined = dateTime.TimeOfDay.Hours > 0;
-            bool minutesDefined = dateTime.TimeOfDay.Minutes > 0;
-            bool secondsDefined = dateTime.TimeOfDay.Seconds > 0;
-            bool isTimeDefined = hoursDefined || minutesDefined || secondsDefined;
+            var hoursDefined = dateTime.TimeOfDay.Hours > 0;
+            var minutesDefined = dateTime.TimeOfDay.Minutes > 0;
+            var secondsDefined = dateTime.TimeOfDay.Seconds > 0;
+            var isTimeDefined = hoursDefined || minutesDefined || secondsDefined;
             switch (extensionMethod)
             {
                 case LinqOperatorConstants.ConstantDateIs:
                     {
-                        ParameterExpression x = _context.ParameterExpression;
+                        var x = _context.ParameterExpression;
 
                         dynamicExpression = isTimeDefined ?
-                             DynamicExpressionParser.ParseLambda(new ParameterExpression[] { x }, null, $"{propertyName}==@0", dateTime)
-                            : DynamicExpressionParser.ParseLambda(new ParameterExpression[] { x }, null, $"{propertyName}>=@0 && {propertyName}<= @1", dateTime.Date, dateTime.Date.AddDays(1).AddTicks(-1));
+                             DynamicExpressionParser.ParseLambda(new[] { x }, null, $"{propertyName}==@0", dateTime)
+                            : DynamicExpressionParser.ParseLambda(new[] { x }, null, $"{propertyName}>=@0 && {propertyName}<= @1", dateTime.Date, dateTime.Date.AddDays(1).AddTicks(-1));
                         if (isNegation)
                             AddNegationExpression(operatorAction, dynamicExpression.Body);
                         else
@@ -351,8 +341,8 @@ namespace PrimeNG.TableFilter.Core
                     }
                 case LinqOperatorConstants.ConstantBefore:
                     {
-                        ParameterExpression x = _context.ParameterExpression;
-                        dynamicExpression = DynamicExpressionParser.ParseLambda(new ParameterExpression[] { x }, null, $"{propertyName}<@0", dateTime);
+                        var x = _context.ParameterExpression;
+                        dynamicExpression = DynamicExpressionParser.ParseLambda(new[] { x }, null, $"{propertyName}<@0", dateTime);
                         if (isNegation)
                             AddNegationExpression(operatorAction, dynamicExpression.Body);
                         else
@@ -361,16 +351,14 @@ namespace PrimeNG.TableFilter.Core
                     }
                 case LinqOperatorConstants.ConstantAfter:
                     {
-                        ParameterExpression x = _context.ParameterExpression;
-                        dynamicExpression = DynamicExpressionParser.ParseLambda(new ParameterExpression[] { x }, null, $"{propertyName}>@0", dateTime);
+                        var x = _context.ParameterExpression;
+                        dynamicExpression = DynamicExpressionParser.ParseLambda(new[] { x }, null, $"{propertyName}>@0", dateTime);
                         if (isNegation)
                             AddNegationExpression(operatorAction, dynamicExpression.Body);
                         else
                             AddNormalExpression(operatorAction, dynamicExpression.Body);
                         break;
                     }
-                default:
-                    break;
             }
         }
 
