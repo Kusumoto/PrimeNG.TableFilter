@@ -3,7 +3,6 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using PrimeNG.TableFilter.Core;
 using PrimeNG.TableFilter.Models;
-using PrimeNG.TableFilter.Utils;
 
 namespace PrimeNG.TableFilter
 {
@@ -39,7 +38,6 @@ namespace PrimeNG.TableFilter
                         }
                         case JObject _:
                         {
-                                //var filter = filterToken.ToObject<TableFilterContext>(JsonSerializer.Create( new JsonSerializerSettings() { DateParseHandling= DateParseHandling.DateTime })) ;
                                 var filter = filterToken.ToObject<TableFilterContext>();
                                 tableFilterManager.FilterDataSet(filterContext.Key, filter);
                             break;
