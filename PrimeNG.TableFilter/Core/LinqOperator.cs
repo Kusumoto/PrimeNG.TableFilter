@@ -22,7 +22,10 @@ namespace PrimeNG.TableFilter.Core
             };
         }
 
-        public void AddFilterListProperty(string propertyName, object propertyValue, OperatorEnumeration operatorAction)
+        public void AddFilterListProperty(
+            string propertyName,
+            object propertyValue,
+            OperatorEnumeration operatorAction)
         {
             var property = _context.DataSetType.GetProperty(propertyName);
             var propertyType = property?.PropertyType;
@@ -39,17 +42,21 @@ namespace PrimeNG.TableFilter.Core
             AddNormalExpression(operatorAction, list, methodInfo, value);
         }
 
-        public void AddFilterProperty(string propertyName, object propertyValue, string extensionMethod,
-            OperatorEnumeration operatorAction, bool isNegation = false)
+        public void AddFilterProperty(
+            string propertyName, 
+            object propertyValue, 
+            string extensionMethod,
+            OperatorEnumeration operatorAction, 
+            bool isNegation = false)
         {
             var property = _context.DataSetType.GetProperty(propertyName);
             var propertyType = property?.PropertyType;
+            
             if (propertyType == null)
                 return;
+
             if (!IsPropertyTypeAndFilterMatchModeValid(propertyType, extensionMethod))
-            {
                 throw new ArgumentException($"Property ${propertyName} not support method ${extensionMethod}");
-            }
 
             var castValue = ObjectCasterUtil.CastPropertiesType(property, propertyValue);
             var propertyConstant = Expression.Constant(castValue, propertyType);
@@ -101,19 +108,27 @@ namespace PrimeNG.TableFilter.Core
             }
 
         }
-        private void AddNormalExpression(OperatorEnumeration operatorAction, Expression propertyAccess,
-          MethodInfo methodInfo, Expression converted)
+        private void AddNormalExpression(
+            OperatorEnumeration operatorAction, 
+            Expression propertyAccess,
+            MethodInfo methodInfo, 
+            Expression converted)
         {
             var callMethod = Expression.Call(propertyAccess,
                 methodInfo ?? throw new InvalidOperationException(), converted);
             AddLambdaExpression(operatorAction, callMethod);
         }
+
         private void AddNormalExpression(OperatorEnumeration operatorAction, Expression propertyAccess)
         {
             AddLambdaExpression(operatorAction, propertyAccess);
         }
-        private void AddNegationExpression(OperatorEnumeration operatorAction, MemberExpression propertyAccess,
-    MethodInfo methodInfo, Expression converted)
+
+        private void AddNegationExpression(
+            OperatorEnumeration operatorAction,
+            MemberExpression propertyAccess,
+            MethodInfo methodInfo,
+            Expression converted)
         {
             if (propertyAccess == null) throw new ArgumentNullException(nameof(propertyAccess));
             var callMethod = Expression.Not(Expression.Call(propertyAccess,
@@ -251,7 +266,7 @@ namespace PrimeNG.TableFilter.Core
         private void ComposeLambdaForNumericProperty(string propertyName, string extensionMethod, OperatorEnumeration operatorAction, bool isNegation, object castValue)
         {
             LambdaExpression dynamicExpression;
-            ParameterExpression x = _context.ParameterExpression;
+            var x = _context.ParameterExpression;
             switch (extensionMethod)
             {
                 case LinqOperatorConstants.ConstantEquals:
