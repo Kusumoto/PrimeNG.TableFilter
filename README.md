@@ -8,13 +8,13 @@ Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity
 ## Breaking change in version 2.0
 If you use PrimeNG.TableFilter version 1.x.x you will need to migrate your implementation code. Please delete total record variable  and change to get total record from variable out in extension. You can looking for implementation guide line in unit test.
 
-## .Net Platform Support
+## .NET Platform Support
 
-- .Net Standard 2.0
-- .Net Framework 4.0 more then
+- .NET Standard 2.1
+- .NET Framework 4.6.2 more then
 - Mono Framework
 
-## Feature
+## Features
 
 - Handle all command from PrimeNG table filter frontend
 - Filter criteria from PrimeNG table filter in Iterators and Entities
