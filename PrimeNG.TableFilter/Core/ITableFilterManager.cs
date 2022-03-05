@@ -4,7 +4,7 @@ using PrimeNG.TableFilter.Models;
 
 namespace PrimeNG.TableFilter.Core
 {
-    public interface ITableFilterManager<TEntity>
+    public interface ITableFilterManager<out TEntity>
     {
         void MultipleOrderDataSet(TableFilterModel tableFilterPayload);
         void SingleOrderDataSet(TableFilterModel tableFilterPayload);

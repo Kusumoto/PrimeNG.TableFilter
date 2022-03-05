@@ -15,16 +15,16 @@
 
     public static class OperatorConstant
     {
-        private const string And = "and";
-        private const string Or = "or";
+        private const string ConstantAnd = "and";
+        private const string ConstantOr = "or";
 
         public static OperatorEnumeration ConvertOperatorEnumeration(string value)
         {
             switch (value.ToLower())
             {
-                case And:
+                case ConstantAnd:
                     return OperatorEnumeration.And;
-                case Or:
+                case ConstantOr:
                     return OperatorEnumeration.Or;
                 default:
                     return OperatorEnumeration.None;

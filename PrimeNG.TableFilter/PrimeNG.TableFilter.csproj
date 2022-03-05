@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -7,12 +7,13 @@
     <Company>Kusumoto Lab</Company>
     <PackageProjectUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</RepositoryUrl>
-    <Version>1.0.4</Version>
-    <PackageVersion>2.0.0</PackageVersion>
-    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
+    <Version>2.1.0</Version>
+    <PackageVersion>2.1.0</PackageVersion>
+    <TargetFrameworks>net462;netstandard2.1;net6.0</TargetFrameworks>
+	<CheckEolTargetFramework>false</CheckEolTargetFramework>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
+    <AssemblyVersion>2.1.0</AssemblyVersion>
+    <FileVersion>2.1.0</FileVersion>
     <Copyright>2021 Copyright by Weerayut Hongsa</Copyright>
   </PropertyGroup>
   <ItemGroup>

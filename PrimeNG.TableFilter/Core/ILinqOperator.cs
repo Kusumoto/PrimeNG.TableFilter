@@ -2,7 +2,7 @@ using System.Linq;
 
 namespace PrimeNG.TableFilter.Core
 {
-    public interface ILinqOperator<TEntity>
+    public interface ILinqOperator<out TEntity>
     {
         void AddFilterProperty(string propertyName, object propertyValue, string extensionMethod,
             OperatorEnumeration operatorAction, bool isNegation = false);
