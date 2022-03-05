@@ -1,8 +1,0 @@
-language: csharp
-mono: none
-dotnet: 2.2
-dist: bionic
-install:
- - dotnet restore
-script:
- - dotnet test PrimeNG.TableFilter.Test/PrimeNG.TableFilter.Test.csproj
