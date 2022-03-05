@@ -7,9 +7,9 @@
     <Company>Kusumoto Lab</Company>
     <PackageProjectUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</RepositoryUrl>
-    <Version>2.1.0</Version>
-    <PackageVersion>2.1.0</PackageVersion>
-    <TargetFrameworks>net462;netstandard2.1;net6.0</TargetFrameworks>
+    <Version>2.1.1</Version>
+    <PackageVersion>2.1.1</PackageVersion>
+    <TargetFrameworks>net462;netstandard2.1;net6.0;net5.0</TargetFrameworks>
 	<CheckEolTargetFramework>false</CheckEolTargetFramework>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <AssemblyVersion>2.1.0</AssemblyVersion>
