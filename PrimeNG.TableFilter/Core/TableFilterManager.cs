@@ -5,6 +5,9 @@ using PrimeNG.TableFilter.Utils;
 
 namespace PrimeNG.TableFilter.Core
 {
+    /// <summary>
+    /// Class of PrimeNG table filter manager for Entity
+    /// </summary>
     public class TableFilterManager<TEntity> : ITableFilterManager<TEntity>
     {
         private const string ConstantTypeMatchModeStartsWith = "startsWith";
@@ -33,6 +36,11 @@ namespace PrimeNG.TableFilter.Core
 
         public TableFilterManager(IQueryable<TEntity> dataSet) => _linqOperator = new LinqOperator<TEntity>(dataSet);
 
+        /// <summary>
+        /// Set multiple condition for ordering data set to LINQ Operation context
+        /// </summary>
+        /// <param name="tableFilterPayload">PrimeNG load lazy filter payload</param>
+        /// <exception cref="System.ArgumentException">Throws invalid ordering exception</exception>
         public void MultipleOrderDataSet(TableFilterModel tableFilterPayload)
         {
             tableFilterPayload.MultiSortMeta.Select((value, i) => new { i, value }).ToList().ForEach(o =>
@@ -59,6 +67,11 @@ namespace PrimeNG.TableFilter.Core
               });
         }
 
+        /// <summary> 
+        /// Set single condition for ordering data set to LINQ Operation context
+        /// </summary>
+        /// <param name="tableFilterPayload">PrimeNG load lazy filter payload</param>
+        /// <exception cref="System.ArgumentException">Throws invalid ordering parameter exception</exception>
         public void SingleOrderDataSet(TableFilterModel tableFilterPayload)
         {
             switch (tableFilterPayload.SortOrder)
@@ -76,11 +89,21 @@ namespace PrimeNG.TableFilter.Core
             }
         }
 
+        /// <summary>
+        /// Set filter condition data to LINQ Operation context
+        /// </summary>
+        /// <param name="key">Name of property</param>
+        /// <param name="value">PrimeNG filter context</param>
         public void FilterDataSet(string key, TableFilterContext value)
-        {
-            BaseFilterDataSet(key, value, OperatorEnumeration.None);
-        }
+            => BaseFilterDataSet(key, value, OperatorEnumeration.None);
 
+        /// <summary>
+        /// The base method for set filter condition data to LINQ Operation context
+        /// </summary>
+        /// <param name="key">Name of property</param>
+        /// <param name="value">PrimeNG filter context</param>
+        /// <param name="operatorAction">Operation action condition</param>
+        /// <exception cref="System.ArgumentException">Throws invalid match mode exception</exception>
         private void BaseFilterDataSet(string key, TableFilterContext value, OperatorEnumeration operatorAction)
         {
             if (value.Value == null)
@@ -175,6 +198,11 @@ namespace PrimeNG.TableFilter.Core
             }
         }
 
+        /// <summary>
+        /// Set multiple filter condition data to LINQ Operation context
+        /// </summary>
+        /// <param name="key">Name of property</param>
+        /// <param name="values">PrimeNG filters context</param>
         public void FiltersDataSet(string key, IEnumerable<TableFilterContext> values)
         {
             foreach (var filterContext in values)
@@ -184,8 +212,15 @@ namespace PrimeNG.TableFilter.Core
             }
         }
 
+        /// <summary>
+        /// Invoke filter data set from filter context setting
+        /// </summary>
         public void ExecuteFilter() => _linqOperator.WhereExecute();
 
+        /// <summary>
+        /// Get the filter result
+        /// </summary>
+        /// <returns>Filter result</returns>
         public IQueryable<TEntity> GetResult() => _linqOperator.GetResult();
     }
 }

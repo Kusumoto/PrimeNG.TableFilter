@@ -6,8 +6,20 @@ using PrimeNG.TableFilter.Models;
 
 namespace PrimeNG.TableFilter
 {
+    /// <summary>
+    /// Static class contains the extension method for invoke PrimeNG load lazy filter
+    /// </summary>
     public static class PrimeNGTableFilterExtension
     {
+        /// <summary>
+        /// Extension method for filter Iterable Object use PrimeNG load lazy filter payload
+        /// </summary>
+        /// <remarks>This extension method for object type IEnumerable</remarks>
+        /// <typeparam name="T">Type of entity for filter</typeparam>
+        /// <param name="dataSet">Data for filter</param>
+        /// <param name="tableFilterPayload">PrimeNG filter payload</param>
+        /// <param name="totalRecord">Total of record</param>
+        /// <returns></returns>
         public static IEnumerable<T> PrimengTableFilter<T>(this IEnumerable<T> dataSet,
             TableFilterModel tableFilterPayload, out int totalRecord)
         {
@@ -16,6 +28,15 @@ namespace PrimeNG.TableFilter
             return resultSet.AsEnumerable();
         }
 
+        /// <summary>
+        /// Extension method for filter Iterable Object use PrimeNG load lazy filter payload
+        /// </summary>
+        /// <remarks>This extension method for object type IQueryable</remarks>
+        /// <typeparam name="T">Type of entity for filter</typeparam>
+        /// <param name="dataSet">Data for filter</param>
+        /// <param name="tableFilterPayload">PrimeNG filter payload</param>
+        /// <param name="totalRecord">Total of record</param>
+        /// <returns></returns>
         public static IQueryable<T> PrimengTableFilter<T>(this IQueryable<T> dataSet,
             TableFilterModel tableFilterPayload, out int totalRecord)
         {
