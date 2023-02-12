@@ -43,6 +43,8 @@ namespace PrimeNG.TableFilter.Utils
                 return arrayCast.ToObject<List<decimal>>();
             if (property?.PropertyType == typeof(decimal?))
                 return arrayCast.ToObject<List<decimal?>>();
+            if (Nullable.GetUnderlyingType(property?.PropertyType).IsEnum)
+                return arrayCast.ToObject<List<int?>>();
 
             return arrayCast.ToObject<List<string>>();
         }
@@ -82,7 +84,8 @@ namespace PrimeNG.TableFilter.Utils
                 return Convert.ToDecimal(value);
             if (property?.PropertyType == typeof(decimal?))
                 return Convert.ToDecimal(value);
-            
+            if (property?.PropertyType.IsEnum == true)
+                return Convert.ToInt32(value);
 
             return value.ToString();
         }
