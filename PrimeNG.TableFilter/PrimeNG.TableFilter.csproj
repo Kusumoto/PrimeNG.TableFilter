@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</RepositoryUrl>
     <Version>2.1.2</Version>
     <PackageVersion>2.1.2</PackageVersion>
-    <TargetFrameworks>net462;netstandard2.1;net6.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.1;net6.0;net5.0;net7.0</TargetFrameworks>
 	<CheckEolTargetFramework>false</CheckEolTargetFramework>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <AssemblyVersion>2.1.2</AssemblyVersion>
@@ -21,8 +21,8 @@
     <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.13" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.25" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\LICENSE.md">

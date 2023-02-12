@@ -49,7 +49,14 @@ namespace PrimeNG.TableFilter.Core
             OperatorEnumeration operatorAction, 
             bool isNegation = false)
         {
-            var property = _context.DataSetType.GetProperty(propertyName);
+            PropertyInfo property = null;
+            foreach (var item in propertyName.Split('.'))
+            {
+                if (property == null)
+                    property = _context.DataSetType.GetProperty(item.FirstCharToUpper());
+                else
+                    property = property.PropertyType.GetProperty(item.FirstCharToUpper());
+            }
             var propertyType = property?.PropertyType;
             
             if (propertyType == null)
@@ -59,7 +66,7 @@ namespace PrimeNG.TableFilter.Core
                 throw new ArgumentException($"Property ${propertyName} not support method ${extensionMethod}");
 
             var castValue = ObjectCasterUtil.CastPropertiesType(property, propertyValue);
-            var propertyConstant = Expression.Constant(castValue, propertyType);
+            var propertyConstant = propertyType.IsEnum ? Expression.Constant(castValue, typeof(int)) : Expression.Constant(castValue, propertyType);
 
             if (IsNullableType(propertyType))
             {
@@ -90,8 +97,14 @@ namespace PrimeNG.TableFilter.Core
                         return;
                     case string _:
                         {
-                            var propertyAccess = Expression.MakeMemberAccess(_context.ParameterExpression,
-                                property ?? throw new InvalidOperationException());
+                            MemberExpression propertyAccess = null;
+                            foreach (var item in propertyName.Split('.'))
+                            {
+                                if (propertyAccess == null)
+                                    propertyAccess = Expression.PropertyOrField(_context.ParameterExpression, item.FirstCharToUpper());
+                                else
+                                    propertyAccess = Expression.PropertyOrField(propertyAccess, item.FirstCharToUpper());
+                            }
 
                             var methodInfo = propertyType.GetMethod(extensionMethod, new[] { propertyType });
                             if (isNegation)
@@ -193,13 +206,31 @@ namespace PrimeNG.TableFilter.Core
 
         private void BaseOrderExecute(string command, string orderByProperty)
         {
-            var property = _context.DataSetType.GetProperty(orderByProperty);
-            var propertyAccess =
-                Expression.MakeMemberAccess(_context.ParameterExpression,
-                    property ?? throw new InvalidOperationException());
+            PropertyInfo property = null;
+            foreach (var item in orderByProperty.Split('.'))
+            {
+                if (property == null)
+                    property = _context.DataSetType.GetProperty(item.FirstCharToUpper());
+                else
+                    property = property.PropertyType.GetProperty(item.FirstCharToUpper());
+            }
+            var propertyType = property?.PropertyType;
+
+            if (propertyType == null)
+                return;
+
+            MemberExpression propertyAccess = null;
+            foreach (var item in orderByProperty.Split('.'))
+            {
+                if (propertyAccess == null)
+                    propertyAccess = Expression.PropertyOrField(_context.ParameterExpression, item);
+                else
+                    propertyAccess = Expression.PropertyOrField(propertyAccess, item);
+            }
+
             var orderByExpression = Expression.Lambda(propertyAccess, _context.ParameterExpression);
             var resultExpression = Expression.Call(typeof(Queryable), command,
-                new[] { _context.DataSetType, property.PropertyType },
+                new[] { _context.DataSetType, propertyType },
                 _context.DataSet.Expression, Expression.Quote(orderByExpression));
             _context.DataSet = _context.DataSet.Provider.CreateQuery<TEntity>(resultExpression);
         }
@@ -220,8 +251,13 @@ namespace PrimeNG.TableFilter.Core
         /// <returns><code>True</code> if nullable, otherwise <code>False</code></returns>
         private static bool IsNumericType(Type propertyType)
         {
-            return (propertyType == typeof(short) || propertyType == typeof(short?) || propertyType == typeof(int) || propertyType == typeof(int?) || propertyType == typeof(long) || propertyType == typeof(long?)
-                  || propertyType == typeof(float) || propertyType == typeof(float?) || propertyType == typeof(double) || propertyType == typeof(double?) || propertyType == typeof(decimal) || propertyType == typeof(decimal?));
+            return ((propertyType == typeof(short) || propertyType == typeof(short?)) || 
+                (propertyType == typeof(int) || propertyType == typeof(int?)) || 
+                (propertyType == typeof(long) || propertyType == typeof(long?)) || 
+                (propertyType == typeof(float) || propertyType == typeof(float?)) || 
+                (propertyType == typeof(double) || propertyType == typeof(double?)) || 
+                (propertyType == typeof(decimal) || propertyType == typeof(decimal?)) ||
+                (propertyType.IsEnum || (Nullable.GetUnderlyingType(propertyType)?.IsEnum == true)));
         }
         /// <summary>
         /// Checks if for provided <paramref name="propertyType"/>, <paramref name="extensionMethod"/> is valid

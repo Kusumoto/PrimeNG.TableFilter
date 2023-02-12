@@ -49,16 +49,16 @@ namespace PrimeNG.TableFilter.Core
                   {
                       case (int)SortingEnumeration.OrderByAsc:
                           if (o.i == 0)
-                              _linqOperator.OrderBy(o.value.Field.FirstCharToUpper());
+                              _linqOperator.OrderBy(o.value.Field);
                           else
-                              _linqOperator.ThenBy(o.value.Field.FirstCharToUpper());
+                              _linqOperator.ThenBy(o.value.Field);
                           break;
 
                       case (int)SortingEnumeration.OrderByDesc:
                           if (o.i == 0)
-                              _linqOperator.OrderByDescending(o.value.Field.FirstCharToUpper());
+                              _linqOperator.OrderByDescending(o.value.Field);
                           else
-                              _linqOperator.ThenByDescending(o.value.Field.FirstCharToUpper());
+                              _linqOperator.ThenByDescending(o.value.Field);
                           break;
 
                       default:
@@ -77,11 +77,11 @@ namespace PrimeNG.TableFilter.Core
             switch (tableFilterPayload.SortOrder)
             {
                 case (int)SortingEnumeration.OrderByAsc:
-                    _linqOperator.OrderBy(tableFilterPayload.SortField.FirstCharToUpper());
+                    _linqOperator.OrderBy(tableFilterPayload.SortField);
                     break;
 
                 case (int)SortingEnumeration.OrderByDesc:
-                    _linqOperator.OrderByDescending(tableFilterPayload.SortField.FirstCharToUpper());
+                    _linqOperator.OrderByDescending(tableFilterPayload.SortField);
                     break;
 
                 default:
@@ -112,87 +112,85 @@ namespace PrimeNG.TableFilter.Core
             switch (value.MatchMode)
             {
                 case ConstantTypeMatchModeStartsWith:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantStartsWith
                         , operatorAction);
                     break;
 
                 case ConstantTypeMatchModeContains:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantContains
                         , operatorAction);
                     break;
 
                 case ConstantTypeMatchModeIn:
-                    _linqOperator.AddFilterListProperty(key.FirstCharToUpper(), value.Value
+                    _linqOperator.AddFilterListProperty(key, value.Value
                         , operatorAction);
                     break;
 
                 case ConstantTypeMatchModeEndsWith:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantEndsWith
                         , OperatorEnumeration.None);
                     break;
 
                 case ConstantTypeMatchModeEquals:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantEquals
                         , operatorAction);
                     break;
 
                 case ConstantTypeMatchModeNotContains:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantContains
                         , OperatorEnumeration.None, true);
                     break;
 
                 case ConstantTypeMatchModeNotEquals:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantEquals
                         , operatorAction, true);
                     break;
                 case ConstantTypeMatchModeDateIs:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantDateIs
                         , operatorAction);
                     break;
                 case ConstantTypeMatchModeDateIsNot:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantDateIs
                         , operatorAction, true);
                     break;
                 case ConstantTypeMatchModeDateBefore:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantBefore
                         , operatorAction);
                     break;
                 case ConstantTypeMatchModeDateAfter:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantAfter
                         , operatorAction);
                     break;
                 case ConstantTypeMatchModeLessThan:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantLessThan
                         , operatorAction);
                     break;
                 case ConstantTypeMatchModeLessOrEqualsThan:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantLessThanOrEqual
                         , operatorAction);
                     break;
                 case ConstantTypeMatchModeGreaterThan:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantGreaterThan
                         , operatorAction);
                     break;
                 case ConstantTypeMatchModeGreaterOrEqualsThan:
-                    _linqOperator.AddFilterProperty(key.FirstCharToUpper(), value.Value,
+                    _linqOperator.AddFilterProperty(key, value.Value,
                         LinqOperatorConstants.ConstantGreaterThanOrEqual
                         , operatorAction);
                     break;
-
-
                 default:
                     throw new System.ArgumentException("Invalid Match mode!");
             }
