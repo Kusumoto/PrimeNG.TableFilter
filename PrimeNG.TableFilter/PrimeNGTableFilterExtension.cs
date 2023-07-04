@@ -42,6 +42,22 @@ namespace PrimeNG.TableFilter
         {
             ITableFilterManager<T> tableFilterManager = new TableFilterManager<T>(dataSet);
 
+            if (tableFilterPayload.Filters.ContainsKey("global"))
+            {
+                var filterPayload = tableFilterPayload.Filters["global"]?.ToString();
+                if (filterPayload != null)
+                {
+                    var filterToken = JToken.Parse(filterPayload);
+                    var filter = filterToken.ToObject<TableFilterContext>();
+                    if (filter != null)
+                    {
+                        foreach (var filterContext in tableFilterPayload.Filters)
+                        {
+                            tableFilterManager.FilterDataSet(filterContext.Key, filter);
+                        }
+                    }
+                }
+            }
 
             if (tableFilterPayload.Filters != null && tableFilterPayload.Filters.Any())
             {
