@@ -42,25 +42,25 @@ namespace PrimeNG.TableFilter
         {
             ITableFilterManager<T> tableFilterManager = new TableFilterManager<T>(dataSet);
 
-            if (tableFilterPayload.Filters.ContainsKey("global"))
+            if (tableFilterPayload.Filters != null && tableFilterPayload.Filters.Any())
             {
-                var filterPayload = tableFilterPayload.Filters["global"]?.ToString();
-                if (filterPayload != null)
+                if (tableFilterPayload.Filters.ContainsKey("global"))
                 {
-                    var filterToken = JToken.Parse(filterPayload);
-                    var filter = filterToken.ToObject<TableFilterContext>();
-                    if (filter != null)
+                    var filterPayload = tableFilterPayload.Filters["global"]?.ToString();
+                    if (filterPayload != null)
                     {
-                        foreach (var filterContext in tableFilterPayload.Filters)
+                        var filterToken = JToken.Parse(filterPayload);
+                        var filter = filterToken.ToObject<TableFilterContext>();
+                        if (filter != null)
                         {
-                            tableFilterManager.FilterDataSet(filterContext.Key, filter);
+                            foreach (var filterContext in tableFilterPayload.Filters)
+                            {
+                                tableFilterManager.FilterDataSet(filterContext.Key, filter, OperatorEnumeration.Or);
+                            }
                         }
                     }
                 }
-            }
 
-            if (tableFilterPayload.Filters != null && tableFilterPayload.Filters.Any())
-            {
                 foreach (var filterContext in tableFilterPayload.Filters)
                 {
                     var filterPayload = filterContext.Value.ToString();
@@ -68,17 +68,17 @@ namespace PrimeNG.TableFilter
                     switch (filterToken)
                     {
                         case JArray _:
-                        {
-                            var filters = filterToken.ToObject<List<TableFilterContext>>();
-                            tableFilterManager.FiltersDataSet(filterContext.Key, filters);
-                            break;
-                        }
+                            {
+                                var filters = filterToken.ToObject<List<TableFilterContext>>();
+                                tableFilterManager.FiltersDataSet(filterContext.Key, filters);
+                                break;
+                            }
                         case JObject _:
-                        {
+                            {
                                 var filter = filterToken.ToObject<TableFilterContext>();
                                 tableFilterManager.FilterDataSet(filterContext.Key, filter);
-                            break;
-                        }
+                                break;
+                            }
                     }
                 }
                 tableFilterManager.ExecuteFilter();

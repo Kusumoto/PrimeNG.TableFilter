@@ -9,6 +9,7 @@ namespace PrimeNG.TableFilter.Core
         void MultipleOrderDataSet(TableFilterModel tableFilterPayload);
         void SingleOrderDataSet(TableFilterModel tableFilterPayload);
         void FilterDataSet(string key, TableFilterContext value);
+        void FilterDataSet(string key, TableFilterContext value, OperatorEnumeration opMode);
         void FiltersDataSet(string key, IEnumerable<TableFilterContext> values);
         void ExecuteFilter();
         IQueryable<TEntity> GetResult();

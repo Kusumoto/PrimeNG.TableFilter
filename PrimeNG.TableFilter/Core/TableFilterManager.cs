@@ -98,6 +98,15 @@ namespace PrimeNG.TableFilter.Core
             => BaseFilterDataSet(key, value, OperatorEnumeration.None);
 
         /// <summary>
+        /// Set filter condition data to LINQ Operation context
+        /// </summary>
+        /// <param name="key">Name of property</param>
+        /// <param name="value">PrimeNG filter context</param>
+        /// <param name="filterOperator">PrimeNG filter connection operator</param>
+        public void FilterDataSet(string key, TableFilterContext value, OperatorEnumeration filterOperator)
+            => BaseFilterDataSet(key, value, filterOperator);
+
+        /// <summary>
         /// The base method for set filter condition data to LINQ Operation context
         /// </summary>
         /// <param name="key">Name of property</param>

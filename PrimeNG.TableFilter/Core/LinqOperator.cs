@@ -62,6 +62,46 @@ namespace PrimeNG.TableFilter.Core
             if (propertyType == null)
                 return;
 
+            if (propertyType !=  typeof(string) && extensionMethod == LinqOperatorConstants.ConstantContains)
+            {
+                if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
+                {
+                    extensionMethod = LinqOperatorConstants.ConstantDateIs;
+                    if (DateTime.TryParse(propertyValue.ToString(), out var currentDate))
+                        propertyValue = currentDate;
+                    else
+                        return;
+                }
+                else if (propertyType == typeof(bool) || propertyType == typeof(bool?))
+                {
+                    extensionMethod = LinqOperatorConstants.ConstantEquals;
+                    if (bool.TryParse(propertyValue.ToString(),out var currentBoolean))
+                        propertyValue = currentBoolean;
+                    else
+                        return;
+                }
+                else if (IsNumericType(propertyType))
+                {
+                    extensionMethod = LinqOperatorConstants.ConstantEquals;
+                    if ((propertyType == typeof(short) || propertyType == typeof(short?)) && short.TryParse(propertyValue.ToString(), out var currentShort))
+                        propertyValue = currentShort;
+                    else if ((propertyType == typeof(int) || propertyType == typeof(int?)) && int.TryParse(propertyValue.ToString(), out var currentInt))
+                        propertyValue = currentInt;
+                    else if ((propertyType == typeof(long) || propertyType == typeof(long?)) && long.TryParse(propertyValue.ToString(), out var currentLong))
+                        propertyValue = currentLong;
+                    else if ((propertyType == typeof(float) || propertyType == typeof(float?)) && float.TryParse(propertyValue.ToString(), out var currentFloat))
+                        propertyValue = currentFloat;
+                    else if ((propertyType == typeof(double) || propertyType == typeof(double?)) && double.TryParse(propertyValue.ToString(), out var currentDouble))
+                        propertyValue = currentDouble;
+                    else if ((propertyType == typeof(decimal) || propertyType == typeof(decimal?)) && decimal.TryParse(propertyValue.ToString(), out var currentDecimal))
+                        propertyValue = currentDecimal;
+                    else if ((propertyType.IsEnum || (Nullable.GetUnderlyingType(propertyType)?.IsEnum == true)) && int.TryParse(propertyValue.ToString(), out var currentEnum))
+                        propertyValue = currentEnum;
+                    else
+                        return;
+                }
+            }
+
             if (!IsPropertyTypeAndFilterMatchModeValid(propertyType, extensionMethod))
                 throw new ArgumentException($"Property ${propertyName} not support method ${extensionMethod}");
 
