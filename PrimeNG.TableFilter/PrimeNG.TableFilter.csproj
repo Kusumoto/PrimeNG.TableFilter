@@ -1,33 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity</Description>
-    <Authors>Weerayut Hongsa</Authors>
-    <Company>Kusumoto Lab</Company>
-    <PackageProjectUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</RepositoryUrl>
-    <Version>2.1.4</Version>
-    <PackageVersion>2.1.4</PackageVersion>
-    <TargetFrameworks>net462;netstandard2.1;net5.0;net6.0;net7.0</TargetFrameworks>
-	<CheckEolTargetFramework>false</CheckEolTargetFramework>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <AssemblyVersion>2.1.4</AssemblyVersion>
-    <FileVersion>2.1.4</FileVersion>
-    <Copyright>2023 Copyright by Weerayut Hongsa</Copyright>
-  </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Utils\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Description>Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity</Description>
+		<Authors>Karthikkumar Subramaniam</Authors>
+		<Company>bright dot</Company>
+		<PackageProjectUrl>https://github.com/karthiksubramaniam/PrimeNG.TableFilter</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/karthiksubramaniam/PrimeNG.TableFilter</RepositoryUrl>
+		<Version>2.1.4</Version>
+		<PackageVersion>2.1.4</PackageVersion>
+		<TargetFrameworks>net462;netstandard2.1;net5.0;net6.0;net7.0</TargetFrameworks>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<AssemblyVersion>2.1.4</AssemblyVersion>
+		<FileVersion>2.1.4</FileVersion>
+		<Copyright>2023 Copyright by Karthikkumar Subramaniam</Copyright>
+	</PropertyGroup>
+	<ItemGroup>
+		<Folder Include="Models\" />
+		<Folder Include="Utils\" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 </Project>
