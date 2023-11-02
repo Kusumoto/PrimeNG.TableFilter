@@ -43,6 +43,10 @@ namespace PrimeNG.TableFilter.Utils
                 return arrayCast.ToObject<List<decimal>>();
             if (property?.PropertyType == typeof(decimal?))
                 return arrayCast.ToObject<List<decimal?>>();
+            if (property?.PropertyType == typeof(byte))
+                return arrayCast.ToObject<List<byte>>();
+            if (property?.PropertyType == typeof(byte?))
+                return arrayCast.ToObject<List<byte?>>();
 
             return arrayCast.ToObject<List<string>>();
         }
@@ -82,7 +86,10 @@ namespace PrimeNG.TableFilter.Utils
                 return Convert.ToDecimal(value);
             if (property?.PropertyType == typeof(decimal?))
                 return Convert.ToDecimal(value);
-            
+            if (property?.PropertyType == typeof(byte))
+                return Convert.ToByte(value);
+            if (property?.PropertyType == typeof(byte?))
+                return Convert.ToByte(value);
 
             return value.ToString();
         }
