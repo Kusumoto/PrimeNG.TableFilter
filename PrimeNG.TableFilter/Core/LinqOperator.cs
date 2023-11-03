@@ -221,7 +221,8 @@ namespace PrimeNG.TableFilter.Core
         private static bool IsNumericType(Type propertyType)
         {
             return (propertyType == typeof(short) || propertyType == typeof(short?) || propertyType == typeof(int) || propertyType == typeof(int?) || propertyType == typeof(long) || propertyType == typeof(long?)
-                  || propertyType == typeof(float) || propertyType == typeof(float?) || propertyType == typeof(double) || propertyType == typeof(double?) || propertyType == typeof(decimal) || propertyType == typeof(decimal?));
+                  || propertyType == typeof(float) || propertyType == typeof(float?) || propertyType == typeof(double) || propertyType == typeof(double?) || propertyType == typeof(decimal) || propertyType == typeof(decimal?))
+                  || propertyType == typeof(byte) || propertyType == typeof(byte?);
         }
         /// <summary>
         /// Checks if for provided <paramref name="propertyType"/>, <paramref name="extensionMethod"/> is valid

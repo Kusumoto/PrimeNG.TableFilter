@@ -43,6 +43,8 @@ namespace PrimeNG.TableFilter.Test
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B1", NullableDecimal = (decimal?)22.6 },
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", DateTime2 = new DateTime(2021,11,5) },
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", DateTime2 = new DateTime(2021,11,8) },
+                new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", NullableByte = (byte?)27 },
+                new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", NullableByte = (byte?)28 },
             }.AsQueryable();
         }
 
@@ -1023,6 +1025,105 @@ namespace PrimeNG.TableFilter.Test
             int counted = dataSet.Count(x => x.DateTime2.HasValue && x.DateTime2.Value > dateTime);
             dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
             Assert.Equal( counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Byte")]
+        public void NullableByteFilterShouldReturnSingleElement()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableByte: { value: 27, matchMode: \"equals\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Byte")]
+        public void NullableByteFilterShouldReturnLessThan_28()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableByte: { value: 28, matchMode: \"lt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Byte")]
+        public void NullableByteFilterShouldReturnLessOrEquals_28()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableByte: { value: 28, matchMode: \"lte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableByte <= 28);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Byte")]
+        public void NullableByteFilterShouldReturnGreaterThan_27()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableByte: { value: 27, matchMode: \"gt\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Single(dataSet);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Byte")]
+        public void NullableByteFilterShouldReturnGreaterOrEquals_27()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableByte: { value: 27, matchMode: \"gte\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableByte >= 27);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Byte")]
+        public void NullableByteFilterShouldReturnTestDataWithoutNullableByte27()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableByte: { value: 27, matchMode: \"notEquals\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int initialCount = dataSet.Count();
+            int counted = dataSet.Count(x => x.NullableByte.HasValue && x.NullableByte.Value == 27);
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(initialCount - counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Byte")]
+        public void NullableByteFilterShouldReturnNullableByte27OrNullableByte28()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableByte:  [ { matchMode: \"equals\", operator: \"or\", value: 27 }, { matchMode: \"equals\", operator: \"or\", value: 28 } ] } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count(x => x.NullableByte.HasValue && (x.NullableByte.Value == 27 || x.NullableByte.Value == 28));
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Byte")]
+        public void NullableByteFilterShouldReturTestDataWithoutNullableByte27AndNullableByte28()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableByte:  [ { matchMode: \"notEquals\", operator: \"and\", value: 27 }, { matchMode: \"notEquals\", operator: \"and\", value: 28 } ] } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int initialCount = dataSet.Count();
+            int counted = dataSet.Count(x => !(x.NullableByte.HasValue && (x.NullableByte.Value == 27 || x.NullableByte.Value == 28)));
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Byte")]
+        public void NullablByteFilterShouldReturnNullableByte27OrNullableByte28In()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { nullableByte:   { matchMode: \"in\", operator: \"and\", value: [27,28] } } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int initialCount = dataSet.Count();
+            int counted = dataSet.Count(x => (x.NullableByte.HasValue && (x.NullableByte.Value == 27 || x.NullableByte.Value == 28)));
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
         }
     }
 }
