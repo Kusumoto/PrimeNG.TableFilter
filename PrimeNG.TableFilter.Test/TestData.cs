@@ -15,5 +15,6 @@ namespace PrimeNG.TableFilter.Test
         public float? NullableFloat { get; set; }
         public double? NullableDouble { get; set; }
         public decimal? NullableDecimal { get; set; }
+        public byte? NullableByte { get; set; }
     }
 }
