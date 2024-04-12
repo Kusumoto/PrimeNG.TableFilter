@@ -249,6 +249,11 @@ namespace PrimeNG.TableFilter.Core
                 return LinqOperatorConstants.ConstantEquals == extensionMethod;
             }
 
+            if (propertyType.IsEnum)
+            {
+                return LinqOperatorConstants.ConstantEquals == extensionMethod;
+            }
+
             if (!IsNumericType(propertyType)) return false;
             var validNumericMethods = new[] { LinqOperatorConstants.ConstantEquals, LinqOperatorConstants.ConstantLessThan, LinqOperatorConstants.ConstantLessThanOrEqual, LinqOperatorConstants.ConstantGreaterThan, LinqOperatorConstants.ConstantGreaterThanOrEqual };
             return validNumericMethods.Contains(extensionMethod);

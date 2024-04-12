@@ -90,6 +90,8 @@ namespace PrimeNG.TableFilter.Utils
                 return Convert.ToByte(value);
             if (property?.PropertyType == typeof(byte?))
                 return Convert.ToByte(value);
+            if (property?.PropertyType.IsEnum ?? false)
+                return Enum.Parse(property.PropertyType, value.ToString());
 
             return value.ToString();
         }

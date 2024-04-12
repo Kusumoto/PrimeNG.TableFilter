@@ -14,8 +14,8 @@ namespace PrimeNG.TableFilter.Test
             return new List<TestData>
             {
                 new TestData { DateTime1  = new DateTime(2019, 1, 10), Num1 = 1, String1 = "Test1", DateTime2 = new DateTime(2019, 2, 10) },
-                new TestData { DateTime1 = new DateTime(2019, 1, 11), Num1 = 2, String1 = "Test2" },
-                new TestData { DateTime1 = new DateTime(2019, 1, 12), Num1 = 3, String1 = "Test3" },
+                new TestData { DateTime1 = new DateTime(2019, 1, 11), Num1 = 2, String1 = "Test2" ,Enum1=EnumStatus.Confirmed},
+                new TestData { DateTime1 = new DateTime(2019, 1, 12), Num1 = 3, String1 = "Test3" ,Enum1=EnumStatus.ReadyToCheck},
                 new TestData { DateTime1 = new DateTime(2019, 1, 13), Num1 = 4, String1 = "Test4" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 14), Num1 = 5, String1 = "Test5" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 15), Num1 = 6, String1 = "Test5" },
@@ -26,13 +26,13 @@ namespace PrimeNG.TableFilter.Test
                 new TestData { DateTime1 = new DateTime(2019, 1, 18), Num1 = 9, String1 = "Best2" },
                 new TestData { DateTime1 = new DateTime(2019, 1, 18), Num1 = 9, String1 = "Best3" },
                 // nullable TestData
-                new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "T1", NullableBool=false },
+                new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "T1", NullableBool=false,Enum1=EnumStatus.Confirmed },
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "T1", NullableBool=true },
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "T1", NullableBool=true },
-                new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B1", NullableShort=5},
+                new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B1", NullableShort=5,Enum1=EnumStatus.Confirmed},
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B1", NullableInt=12},
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", NullableLong=55 },
-                new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B3", NullableFloat=(float?)5.1},
+                new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B3", NullableFloat=(float?)5.1, Enum1 = EnumStatus.Confirmed},
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "T7", NullableDouble=10.2},
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B1", NullableDecimal = (decimal?)22.5 },
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", DateTime2 = new DateTime(2021,11,5) },
@@ -319,6 +319,15 @@ namespace PrimeNG.TableFilter.Test
             var dataSet = GenerateMockTestData();
             dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
             Assert.Single(dataSet);
+        }
+
+        [Fact]
+        public void EnumFilterShouldReturnOneElement()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { Enum1: { value: 2, matchMode: \"equals\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(1, totalRecord);
         }
     }
 }
