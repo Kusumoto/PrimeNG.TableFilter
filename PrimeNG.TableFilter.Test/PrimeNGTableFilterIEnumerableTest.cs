@@ -329,5 +329,33 @@ namespace PrimeNG.TableFilter.Test
             dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
             Assert.Equal(1, totalRecord);
         }
+
+        [Fact]
+        public void EnumConfirmedFilterShouldReturnFourElementWithSortDate()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { Enum1: { value: 2, matchMode: \"equals\" }  } , first: 0, globalFilter: null, multiSortMeta: [{field: \"DateTime1\", order: 1}], rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(1, totalRecord);
+        }
+
+        [Fact]
+        public void SortFieldNotFoundShouldReturnDataWithoutError()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { Enum1: { value: 2, matchMode: \"equals\" }  } , first: 0, globalFilter: null, multiSortMeta: [{field: \"DateTime10\", order: 1}], rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(1, totalRecord);
+        }
+
+        [Fact]
+        public void FilterFieldNotFoundShouldReturnDataWithoutError()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { Enum15: { value: 2, matchMode: \"equals\" }  } , first: 0, globalFilter: null, multiSortMeta: [{field: \"DateTime10\", order: 1}], rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(1, totalRecord);
+        }
+
     }
 }

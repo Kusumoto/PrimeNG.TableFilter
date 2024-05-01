@@ -194,6 +194,11 @@ namespace PrimeNG.TableFilter.Core
         private void BaseOrderExecute(string command, string orderByProperty)
         {
             var property = _context.DataSetType.GetProperty(orderByProperty);
+
+            //ignore sort when property not exist 
+            if (property == null)
+                return;
+
             var propertyAccess =
                 Expression.MakeMemberAccess(_context.ParameterExpression,
                     property ?? throw new InvalidOperationException());

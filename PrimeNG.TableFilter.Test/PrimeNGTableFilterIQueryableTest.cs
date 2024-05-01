@@ -148,6 +148,19 @@ namespace PrimeNG.TableFilter.Test
         }
 
         [Fact]
+        public void Order_TableBy_DateTime1_First_3_Row_5_Test()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: {} , first: 3, globalFilter: null, multiSortMeta: [{  field:\"DateTime1\",order:1}], rows: 5}");
+            var dataSet = GenerateMockTestData();
+            int counted = dataSet.Count();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(5, dataSet.Count());
+            Assert.Equal(4, dataSet.FirstOrDefault()?.Num1);
+            Assert.Equal(8, dataSet.LastOrDefault()?.Num1);
+            Assert.Equal(counted, totalRecord);
+        }
+
+        [Fact]
         public void List_Filter_Test7_In_List_Test()
         {
             var filter = GenerateFilterTableFromJson("{ filters: { num1: { value: [\"1\",\"7\",\"9\"], matchMode: \"in\" } } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10, sortField: \"\",sortOrder: -1 }");
