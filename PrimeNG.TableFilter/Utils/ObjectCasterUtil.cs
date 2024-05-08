@@ -10,7 +10,7 @@ namespace PrimeNG.TableFilter.Utils
     {
         public static object CastPropertiesTypeList(PropertyInfo property, object value)
         {
-            var arrayCast = (JArray) value;
+            var arrayCast = (JArray)value;
             if (property?.PropertyType == typeof(int))
                 return arrayCast.ToObject<List<int>>();
             if (property?.PropertyType == typeof(int?))
@@ -53,7 +53,7 @@ namespace PrimeNG.TableFilter.Utils
 
         public static object CastPropertiesType(PropertyInfo property, object value)
         {
-                
+
             if (property?.PropertyType == typeof(int))
                 return Convert.ToInt32(value);
             if (property?.PropertyType == typeof(int?))
@@ -90,8 +90,15 @@ namespace PrimeNG.TableFilter.Utils
                 return Convert.ToByte(value);
             if (property?.PropertyType == typeof(byte?))
                 return Convert.ToByte(value);
-            if (property?.PropertyType.IsEnum ?? false)
-                return Enum.Parse(property.PropertyType, value.ToString());
+            if (property?.PropertyType.IsEnum == true)
+                return Enum.ToObject(property.PropertyType, value);
+            if (property?.PropertyType.IsGenericType == true &&
+    property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) &&
+    property.PropertyType.GetGenericArguments()[0].IsEnum)
+            {
+                Type enumType = property.PropertyType.GetGenericArguments()[0];
+                return Enum.ToObject(enumType, value);
+            }
 
             return value.ToString();
         }

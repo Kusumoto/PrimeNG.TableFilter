@@ -45,6 +45,7 @@ namespace PrimeNG.TableFilter.Test
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", DateTime2 = new DateTime(2021,11,8) },
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", NullableByte = (byte?)27 },
                 new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", NullableByte = (byte?)28 },
+                new TestData { DateTime1 = new DateTime(2021, 11, 1), Num1 = 90, String1 = "B2", NullableByte = (byte?)28,NullableEnum=EnumStatus.Draft },
             }.AsQueryable();
         }
 
@@ -1135,6 +1136,19 @@ namespace PrimeNG.TableFilter.Test
             var dataSet = GenerateMockTestData();
             int initialCount = dataSet.Count();
             int counted = dataSet.Count(x => (x.NullableByte.HasValue && (x.NullableByte.Value == 27 || x.NullableByte.Value == 28)));
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(counted, totalRecord);
+        }
+
+        [Fact]
+        [Trait("Category", "Nullable")]
+        [Trait("Type", "Enum")]
+        public void NullablEnumFilterShouldReturnNullableEnumDraftEquals()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { NullableEnum:   { matchMode: \"equals\", operator: \"or\", value: 1 } } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            int initialCount = dataSet.Count();
+            int counted = dataSet.Count(x => (x.NullableEnum.HasValue && (x.NullableEnum.Value == EnumStatus.Draft)));
             dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
             Assert.Equal(counted, totalRecord);
         }
