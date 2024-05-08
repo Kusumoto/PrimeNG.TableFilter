@@ -254,7 +254,7 @@ namespace PrimeNG.TableFilter.Core
                 return LinqOperatorConstants.ConstantEquals == extensionMethod;
             }
 
-            if (propertyType.IsEnum)
+            if (propertyType.IsEnum || (Nullable.GetUnderlyingType(propertyType) != null && propertyType.IsEnum))
             {
                 return LinqOperatorConstants.ConstantEquals == extensionMethod;
             }

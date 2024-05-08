@@ -331,6 +331,15 @@ namespace PrimeNG.TableFilter.Test
         }
 
         [Fact]
+        public void EnumFilterShouldReturnOneElementV2()
+        {
+            var filter = GenerateFilterTableFromJson("{ filters: { Enum1: { value: 2, matchMode: \"is\" }  } , first: 0, globalFilter: null, multiSortMeta: undefined, rows: 10,sortOrder: -1 }");
+            var dataSet = GenerateMockTestData();
+            dataSet = dataSet.PrimengTableFilter(filter, out var totalRecord);
+            Assert.Equal(1, totalRecord);
+        }
+
+        [Fact]
         public void EnumConfirmedFilterShouldReturnFourElementWithSortDate()
         {
             var filter = GenerateFilterTableFromJson("{ filters: { Enum1: { value: 2, matchMode: \"equals\" }  } , first: 0, globalFilter: null, multiSortMeta: [{field: \"DateTime1\", order: 1}], rows: 10,sortOrder: -1 }");
